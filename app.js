@@ -6,7 +6,9 @@ const app = express();
 //midelleware
 app.use(express.json());    // Middleware to parse JSON data (otheriwse you get undefined)
 
-
+app.get('/', (req, res) => {
+    res.send('Hello from PediLine!');
+});
 
 mongoose        // Connect to MongoDB
     .connect(
