@@ -10,8 +10,9 @@ const schoolSchema = new mongoose.Schema(
             type: Array,
             required: false,
         },
-        positionId: {
-            // ESEmpio prova type: mongoose.ObjectId,  required come te vol.   
+        position: {
+            type: Array,
+            required: [true, 'Please enter coordinates'], 
         }
     },
     {

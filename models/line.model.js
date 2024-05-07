@@ -10,6 +10,10 @@ const lineSchema = new mongoose.Schema(
             type: String,
             required: false,
         },
+        stops: {    // Array of stop IDs
+            type: Array,
+            required: false,
+        },
     },
     {
         timestamps: true

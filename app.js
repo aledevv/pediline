@@ -1,6 +1,6 @@
 const express = require('express');    
 const mongoose = require('mongoose');
-const Stop = require('../pediline/models/stop.model.js');
+const Stop = require('../pediline/models/stop.model.js').default;
 const mongoDBToken = require('./config'); // Path al file config.js
 
 const app = express();
