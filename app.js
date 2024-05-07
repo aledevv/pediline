@@ -1,6 +1,7 @@
 const express = require('express');    
 const mongoose = require('mongoose');
 const Stop = require('../pediline/models/stop.model.js');
+const mongoDBToken = require('./config'); // Path al file config.js
 
 const app = express();
 
@@ -106,9 +107,7 @@ app.get('/', (req, res) => {
 });
 
 mongoose        // Connect to MongoDB
-    .connect(
-        'mongodb+srv://admin:piediUNITN@pedilinedb.inhrctf.mongodb.net/Pediline?retryWrites=true&w=majority&appName=pedilineDB'
-    )
+    .connect(mongoDBToken)
     .then(() => {
         console.log('Connesso a MongoDB');        // Connection to MongoDB successful
         app.listen(3000, () => {                    // Start the server
