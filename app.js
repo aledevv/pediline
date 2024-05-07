@@ -90,16 +90,145 @@ app.put('/api/v1/stops/:id', async (req, res) => { //modifica oggetto specifico
 
 /*****************************************************************************/
 
+/*******************SCUOLE************************/ 
 
-
-const getProducts = async (req, res) => {
+app.get('/api/v1/schools/', async (req, res) => {
     try {
-        const products = await Product.find();
-        res.status(200).json(products);
+        const schools = await School.find();
+        res.status(200).json(schools);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-};
+});
+
+
+app.get('/api/v1/schools/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const school = await School.findById(id);
+        res.status(200).json(school);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+app.post('/api/v1/schools/', async (req, res) => {
+    try {
+        const schools = await School.create(req.body);
+        res.status(200).json(schools);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+app.delete('/api/v1/schools/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedSchool = await School.findByIdAndDelete(id);
+
+        if (!deletedSchool) {
+            return res.status(404).json({ message: 'School not found' });
+        }
+
+        res.status(200).json(deletedSchool);
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+    });
+
+
+app.put('/api/v1/schools/:id', async (req, res) => { //modifica oggetto specifico
+    try {
+        const { id } = req.params;
+        const school = await School.findByIdAndUpdate(id, req.body);
+
+        if (!school) {
+            return res.status(404).json({ message: 'School not found' });
+        }
+
+        const updated = await School.findById(id);
+
+        res.status(200).json(updated);
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+    });
+
+/*****************************************************************************/
+
+/*******************LINEE************************/ 
+
+app.get('/api/v1/lines/', async (req, res) => {
+    try {
+        const lines = await Line.find();
+        res.status(200).json(lines);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+app.get('/api/v1/lines/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const line = await Line.findById(id);
+        res.status(200).json(line);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+app.post('/api/v1/lines/', async (req, res) => {
+    try {
+        const lines = await Line.create(req.body);
+        res.status(200).json(lines);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+app.delete('/api/v1/lines/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedLine = await Line.findByIdAndDelete(id);
+
+        if (!deletedLine) {
+            return res.status(404).json({ message: 'Line not found' });
+        }
+
+        res.status(200).json(deletedLine);
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+    });
+
+
+app.put('/api/v1/lines/:id', async (req, res) => { //modifica oggetto specifico
+    try {
+        const { id } = req.params;
+        const line = await Line.findByIdAndUpdate(id, req.body);
+
+        if (!line) {
+            return res.status(404).json({ message: 'Line not found' });
+        }
+
+        const updated = await Line.findById(id);
+
+        res.status(200).json(updated);
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+    });
+
+/*****************************************************************************/
 
 
 app.get('/', (req, res) => {
