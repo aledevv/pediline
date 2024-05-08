@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+const mongoose = require('mongoose');
 
-const stopSchema = new Schema(
+const stopSchema = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -20,5 +20,5 @@ const stopSchema = new Schema(
     },
 );
 
-const Fermata = model('Fermata', stopSchema);
-export default Fermata;
+const Fermata = mongoose.model('Fermata', stopSchema);
+module.exports = Fermata;
