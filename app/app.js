@@ -5,6 +5,7 @@ const app = express();
 const lines = require('./lines.js');
 const stops = require('./stops.js');
 const lists = require('./lists.js');
+const calendars = require('./calendars.js');
 
 
 /**
@@ -49,6 +50,7 @@ app.use('/api/v1/stops', stops);
 // app.use('/api/v1/users', users);
 app.use('/api/v1/lines', lines);
 app.use('/api/v1/lists', lists);
+app.use('/api/v1/calendars', calendars);
 
 app.get('/', (req, res) => {
     res.send('Hello from PediLine!');
