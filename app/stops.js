@@ -52,7 +52,7 @@ router.post('', async (req, res) => {
     let stopId = stop.id;
     console.log('Stop saved successfully');
 
-    res.location("/api/v1/stops/" + stopId).status(201).send();
+    res.location("/api/v1/stops/" + stopId).status(201).json(stop).send();
 });
 
 

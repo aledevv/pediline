@@ -4,6 +4,7 @@ const app = express();
 // const users = require('./users.js');
 const lines = require('./lines.js');
 const stops = require('./stops.js');
+const lists = require('./lists.js');
 
 
 /**
@@ -47,6 +48,7 @@ app.use((req,res,next) => {
 app.use('/api/v1/stops', stops);
 // app.use('/api/v1/users', users);
 app.use('/api/v1/lines', lines);
+app.use('/api/v1/lists', lists);
 
 app.get('/', (req, res) => {
     res.send('Hello from PediLine!');
