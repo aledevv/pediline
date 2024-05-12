@@ -15,6 +15,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+/* Swagger */
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Pediline',
+            version: '1.0.0',
+        },
+    },
+    apis: ['./app/*.js', './app/models/*.js'], // files containing annotations as above
+};
+const swaggerDocument = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); // ? write in browser localhost:3000/api-docs
+
+
+
+
+
 /*
 // // Add headers before the routes are defined
 // app.use(function (req, res, next) {
@@ -63,9 +83,6 @@ app.use((req, res) => {
 });
 
 
-
-
-;
 module.exports = app;
 
 
@@ -328,3 +345,13 @@ module.exports = app;
 //         console.log('Connessione a MongoDB fallita');
 //     });
 
+/** ----------------------------------------------- */
+/**
+ * @openapi
+ * components:
+ *  securitySchemes:
+ *     bearerAuth:
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT
+ */

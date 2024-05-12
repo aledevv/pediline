@@ -1,6 +1,31 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   Line:
+ *    type: object
+ *    properties:
+ *     name:
+ *      type: string
+ *     color:
+ *      type: string
+ *     stops:
+ *      type: array
+ *      items:
+ *       type: string
+ *    required:
+ *     - name
+ *    example:
+ *      name: "Line 1"
+ *      color: "green"
+ *      stops: ["stop1_ID", "stop2_ID"]
+ */
+				
+
 // set up a mongoose model
 module.exports = mongoose.model('Line', new Schema({ 
 	name: String,
