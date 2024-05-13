@@ -16,18 +16,25 @@ router.get('', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    let stop = await Stop.findById(req.params.id);
-    if (!stop) {
-        res.status(404).send()
-        console.log('Stop not found')
+    let stop;
+    try {
+        stop = await Stop.findById(req.params.id);    
+        if (!stop) {
+            res.status(404).send("404 not found");
+            return;
+        }
+        res.status(200).json({
+            self: '/api/v1/stops/' + stop.id,
+            name: stop.name,
+            schedule: stop.schedule,
+            position: stop.position
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("500 Internal Server Error");
         return;
     }
-    res.status(200).json({
-        self: '/api/v1/stops/' + stop.id,
-        name: stop.name,
-        schedule: stop.schedule,
-        position: stop.position
-    });
+
 });
 
 router.post('', async (req, res) => {
@@ -48,13 +55,13 @@ router.post('', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     let stop = await Stop.findById(req.params.id).exec();
     if (!stop) {
-        res.status(404).send()
-        console.log('Stop not found')
+        res.status(404).send('Stop not found');
+        console.log('Stop not found');
         return;
     }
-    await stop.deleteOne()
-    console.log('Stop removed')
-    res.status(204).send()
+    await stop.deleteOne();
+    console.log('Stop removed');
+    res.status(204).send();
 });
 
 module.exports = router;

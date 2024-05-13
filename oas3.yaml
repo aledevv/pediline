@@ -131,8 +131,6 @@ paths:
       responses:
         '201':
           description: Successo, restituisce la fermata creata
-          tags: 
-            - Stop
           content:
             application/json:
               schema:
@@ -153,8 +151,6 @@ paths:
       responses:
         '200':
           description: Successo, restituisce la fermata specificata
-          tags: 
-            - Stop
           content:
             application/json:
               schema:

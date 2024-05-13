@@ -16,14 +16,27 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    let line = await Line.findById(req.params.id);
-    res.status(200).json({
-        self: '/api/v1/lines/' + line.id,
-        name: line.name,
-        color: line.color,
-        stops: line.stops
-    });
+    let line;
+    try{
+        line = await Line.findById(req.params.id);
+        if (!line) {
+            res.status(404).send("404 not found");
+            return;
+        }
+        res.status(200).json({
+            self: '/api/v1/lines/' + line.id,
+            name: line.name,
+            color: line.color,
+            stops: line.stops
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("500 Internal Server Error");
+        return;
+    }
+    
 });
+
 
 // post gestibile solamente dall'admin? da implementare
 router.post('', async (req, res) => {
@@ -63,13 +76,13 @@ router.put('/:id', async (req, res) => { //modifica oggetto specifico
 router.delete('/:id', async (req, res) => {
     let line = await Line.findById(req.params.id).exec();
     if (!line) {
-        res.status(404).send()
-        console.log('line not found')
+        res.status(404).send('line not found');
+        console.log('line not found');
         return;
     }
-    await line.deleteOne()
-    console.log('line removed')
-    res.status(204).send()
+    await line.deleteOne();
+    console.log('line removed');
+    res.status(204).send();
 });
 
 module.exports = router;

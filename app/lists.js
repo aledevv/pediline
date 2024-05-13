@@ -17,15 +17,30 @@ router.get('', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    let list = await List.findById(req.params.id);
-    res.status(200).json({
-        self: '/api/v1/lists/' + list.id,
-        day: list.day,
-        leaders: list.leaders,
-        studentsPresent: list.studentsPresent,
-        studentsAbsent: list.studentsAbsent
-    });
+    let list;
+    try {
+        list = await List.findById(req.params.id);
+        if (!list) {
+            res.status(404).send("404 not found");
+            return;
+        }
+        res.status(200).json({
+            self: '/api/v1/lists/' + list.id,
+            day: list.day,
+            leaders: list.leaders,
+            studentsPresent: list.studentsPresent,
+            studentsAbsent: list.studentsAbsent
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("500 Internal Server Error");
+        return;
+    }
+    
 });
+
+
+
 
 router.post('', async (req, res) => {
 
@@ -46,13 +61,13 @@ router.post('', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     let list = await List.findById(req.params.id).exec();
     if (!list) {
-        res.status(404).send()
-        console.log('List not found')
+        res.status(404).send('List not found');
+        console.log('List not found');
         return;
     }
-    await list.deleteOne()
-    console.log('List removed')
-    res.status(204).send()
+    await list.deleteOne();
+    console.log('List removed');
+    res.status(204).send();
 });
 
 module.exports = router;

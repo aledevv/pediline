@@ -15,6 +15,28 @@ router.get('', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
+    let calendar;
+    try{
+        calendar = await Calendar.findById(req.params.id);
+        if (!calendar) {
+            res.status(404).send("404 not found");
+            return;
+        }
+        res.status(200).json({
+            self: '/api/v1/calendars/' + calendar.id,
+            listePresenze: calendar.listePresenze,
+            bacheca: calendar.bacheca
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("500 Internal Server Error");
+        return;
+    }
+    
+});
+
+
+router.get('/:id', async (req, res) => {
     let calendar = await Calendar.findById(req.params.id);
     res.status(200).json({
         self: '/api/v1/calendars/' + calendar.id,
@@ -22,6 +44,7 @@ router.get('/:id', async (req, res) => {
         bacheca: calendar.bacheca
     });
 });
+
 
 router.post('', async (req, res) => {
 
@@ -40,13 +63,13 @@ router.post('', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     let calendar = await Calendar.findById(req.params.id).exec();
     if (!calendar) {
-        res.status(404).send()
-        console.log('Calendar not found')
+        res.status(404).send('Calendar not found');
+        console.log('Calendar not found');
         return;
     }
-    await calendar.deleteOne()
-    console.log('Calendar removed')
-    res.status(204).send()
+    await calendar.deleteOne();
+    console.log('Calendar removed');
+    res.status(204).send();
 });
 
 module.exports = router;
