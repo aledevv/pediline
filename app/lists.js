@@ -2,38 +2,6 @@ const express = require('express');
 const router = express.Router();
 const List = require('./models/list'); 
 
-/**
- * @openapi
- * /api/v1/lists:
- *  get:
- *    summary: Get all lists
- *    security:
- *     - bearerAuth: []
- *    responses:
- *     200:
- *      description: Success and returns all lists
- *      content:
- *       application/json:
- *        schema:
- *         type: array
- *         items:
- *          $ref: '#/components/schemas/List'
- *        examples:
- *         Lists:
- *          value:
- *           - self: "/api/v1/lists/1"
- *             day: "2024-05-12"
- *             leaders: ["leader1", "leader2"]
- *             studentsPresent: ["student1", "student2"]
- *             studentsAbsent: ["student3", "student4"]
- *           - self: "/api/v1/lists/2"
- *             day: "2024-05-13"
- *             leaders: ["leader3", "leader4"]
- *             studentsPresent: ["student5", "student6"]
- *             studentsAbsent: ["student7", "student8"]
- *    tags:
- *     - Lists
- */
 router.get('', async (req, res) => {
     let lists = await List.find({});
     lists = lists.map( (list) => {
@@ -48,38 +16,6 @@ router.get('', async (req, res) => {
     res.status(200).json(lists);
 });
 
-/**
- * @openapi
- * /api/v1/lists/{id}:
- *  get:
- *    summary: Get a list by ID
- *    security:
- *     - bearerAuth: []
- *    parameters:
- *     - in: path
- *       name: id
- *       required: true
- *       description: ID of the list to get
- *       schema:
- *        type: string
- *    responses:
- *     200:
- *      description: Success and returns the list
- *      content:
- *       application/json:
- *        schema:
- *         $ref: '#/components/schemas/List'
- *        examples:
- *         ListExample:
- *          value:
- *           self: "/api/v1/lists/1"
- *           day: "2024-05-12"
- *           leaders: ["leader1", "leader2"]
- *           studentsPresent: ["student1", "student2"]
- *           studentsAbsent: ["student3", "student4"]
- *    tags:
- *     - Lists
- */
 router.get('/:id', async (req, res) => {
     let list = await List.findById(req.params.id);
     res.status(200).json({
@@ -91,36 +27,6 @@ router.get('/:id', async (req, res) => {
     });
 });
 
-/**
- * @openapi
- * /api/v1/lists/:
- *  post:
- *    summary: Creates a new list
- *    security:
- *     - bearerAuth: []
- *    parameters:
- *     - in: body
- *       name: body
- *       type: object
- *       required: true
- *       description: List object
- *       schema:
- *        $ref: '#/components/schemas/List'
- *    responses:
- *     201:
- *      description: Success and returns the created list
- *      content:
- *       application/json:
- *        schema:
- *         $ref: '#/components/schemas/List'
- *        example:
- *          day: "2024-05-12"
- *          leaders: ["leader1", "leader2"]
- *          studentsPresent: ["student1", "student2"]
- *          studentsAbsent: ["student3", "student4"]
- *    tags:
- *     - Lists
- */
 router.post('', async (req, res) => {
 
 	let list = new List({
@@ -137,28 +43,6 @@ router.post('', async (req, res) => {
     res.location("/api/v1/lists/" + listId).status(201).json(list).send();
 });
 
-/**
- * @openapi
- * /api/v1/lists/{id}:
- *  delete:
- *    summary: Deletes a list by ID
- *    security:
- *     - bearerAuth: []
- *    parameters:
- *    - in: path
- *      name: id
- *      required: true
- *      description: ID of the list to delete
- *      schema:
- *       type: string
- *    responses:
- *     204:
- *      description: Success, list deleted
- *     404:
- *      description: List not found
- *    tags:
- *     - Lists
- */
 router.delete('/:id', async (req, res) => {
     let list = await List.findById(req.params.id).exec();
     if (!list) {

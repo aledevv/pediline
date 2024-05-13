@@ -1,0 +1,337 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: "Pediline API 3.0"
+  description: API per la gestione del servizio di pedibus.
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Localhost
+paths:
+  /lines:
+    get:
+      summary: Ottieni tutte le linee
+      description: Ottieni tutte le linee disponibili nel sistema.
+      tags: 
+        - Line
+      responses:
+        '200':
+          description: Successo, restituisce tutte le linee
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Line'
+    post:
+      summary: Crea una nuova linea
+      description: Crea una nuova linea nel sistema.
+      tags: 
+        - Line
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Line'
+      responses:
+        '201':
+          description: Successo, restituisce la linea creata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Line'
+  /lines/{id}:
+    get:
+      summary: Ottieni una linea per ID
+      description: Ottieni una linea specifica per ID.
+      tags: 
+        - Line
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID della linea da ottenere
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successo, restituisce la linea specificata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Line'
+    put:
+      summary: Aggiorna una linea per ID
+      description: Aggiorna una linea specifica per ID.
+      tags: 
+        - Line
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID della linea da aggiornare
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Line'
+      responses:
+        '200':
+          description: Successo, restituisce la linea aggiornata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Line'
+    delete:
+      summary: Cancella una linea per ID
+      description: Cancella una linea specifica per ID.
+      tags: 
+        - Line
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID della linea da cancellare
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successo, linea cancellata
+  /stops:
+    get:
+      summary: Ottieni tutte le fermate
+      description: Ottieni tutte le fermate disponibili nel sistema.
+      tags: 
+        - Stop
+      responses:
+        '200':
+          description: Successo, restituisce tutte le fermate
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Stop'
+    post:
+      summary: Crea una nuova fermata
+      description: Crea una nuova fermata nel sistema.
+      tags: 
+        - Stop
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Stop'
+      responses:
+        '201':
+          description: Successo, restituisce la fermata creata
+          tags: 
+            - Stop
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stop'
+  /stops/{id}:
+    get:
+      summary: Ottieni una fermata per ID
+      description: Ottieni una fermata specifica per ID.
+      tags: 
+        - Stop
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID della fermata da ottenere
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successo, restituisce la fermata specificata
+          tags: 
+            - Stop
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stop'
+    delete:
+      summary: Cancella una fermata per ID
+      description: Cancella una fermata specifica per ID.
+      tags: 
+        - Stop
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID della fermata da cancellare
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successo, fermata cancellata
+  /calendars:
+    get:
+      summary: Ottieni tutti i calendari
+      description: Ottieni tutti i calendari disponibili nel sistema.
+      tags: 
+        - Calendar
+      responses:
+        '200':
+          description: Successo, restituisce tutti i calendari
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Calendar'
+    post:
+      summary: Crea un nuovo calendario
+      description: Crea un nuovo calendario nel sistema.
+      tags: 
+        - Calendar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Calendar'
+      responses:
+        '201':
+          description: Successo, restituisce il calendario creato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calendar'
+  /calendars/{id}:
+    get:
+      summary: Ottieni un calendario per ID
+      description: Ottieni un calendario specifico per ID.
+      tags: 
+        - Calendar
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del calendario da ottenere
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successo, restituisce il calendario specificato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calendar'
+    delete:
+      summary: Cancella un calendario per ID
+      description: Cancella un calendario specifico per ID.
+      tags: 
+        - Calendar
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del calendario da cancellare
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successo, calendario cancellato
+components:
+  schemas:
+    Line:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Nome della linea
+        color:
+          type: string
+          description: Colore della linea
+        stops:
+          type: array
+          items:
+            type: string
+          description: Array di fermate associate alla linea
+      example:
+        name: "Linea 1"
+        color: "verde"
+        stops: ["fermata1_ID", "fermata2_ID"]
+    Stop:
+      type: object
+      required:
+        - name
+        - schedule
+        - position
+      properties:
+        name:
+          type: string
+          description: Nome della fermata
+        schedule:
+          type: string
+          description: Orario della fermata
+        position:
+          type: array
+          items:
+            type: number
+          description: Posizione geografica della fermata
+      example:
+        name: "Fermata 1"
+        schedule: "08:00 - 08:30"
+        position: [40.7128, -74.0060]
+    Calendar:
+      type: object
+      required:
+        - listePresenze
+        - bacheca
+      properties:
+        listePresenze:
+          type: array
+          items:
+            type: string
+          description: Array di eventi nel calendario
+        bacheca:
+          type: string
+          format: uuid
+          description: ID del documento Bacheca associato al calendario
+      example:
+        listePresenze: ["evento1", "evento2"]
+        bacheca: "6111e92ecf77c812a056d3d2"
+    List:
+      type: object
+      required:
+        - day
+        - leaders
+        - studentsPresent
+        - studentsAbsent
+      properties:
+        day:
+          type: string
+          description: Giorno della lista
+        leaders:
+          type: array
+          items:
+            type: string
+          description: Array di leader della lista
+        studentsPresent:
+          type: array
+          items:
+            type: string
+          description: Array di studenti presenti nella lista
+        studentsAbsent:
+          type: array
+          items:
+            type: string
+          description: Array di studenti assenti nella lista
+      example:
+        day: "2024-05-12"
+        leaders: ["leader1", "leader2"]
+        studentsPresent: ["student1", "student2"]
+        studentsAbsent: ["student3", "student4"]
