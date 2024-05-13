@@ -238,6 +238,74 @@ paths:
       responses:
         '204':
           description: Successo, calendario cancellato
+  /lists:
+    get:
+      summary: Ottieni tutte le liste
+      description: Ottieni tutte le liste disponibili nel sistema.
+      tags: 
+        - List
+      responses:
+        '200':
+          description: Successo, restituisce tutte le liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/List'
+    post:
+      summary: Crea una nuova lista
+      description: Crea una nuova lista nel sistema.
+      tags: 
+        - List
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/List'
+      responses:
+        '201':
+          description: Successo, restituisce la lista creata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+  /lists/{id}:
+    get:
+      summary: Ottieni una lista per ID
+      description: Ottieni una lista specifica per ID.
+      tags: 
+        - List
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID della lista da ottenere
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successo, restituisce la lista specificata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+    delete:
+      summary: Cancella una lista per ID
+      description: Cancella una lista specifica per ID.
+      tags: 
+        - List
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID della lista da cancellare
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successo, lista cancellata
 components:
   schemas:
     Line:
