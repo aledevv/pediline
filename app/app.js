@@ -8,7 +8,7 @@ const lines = require('./lines.js');
 const stops = require('./stops.js');
 const lists = require('./lists.js');
 const calendars = require('./calendars.js');
-const users = require('./users.js');
+//const users = require('./users.js');
 const authentication = require('./authentication.js');
 const tokenChecker = require('./tokenChecker.js');
 
@@ -50,30 +50,30 @@ app.use('api/v1/users/me', tokenChecker);
 app.use('/api/v1/authenticate', authentication);
 
 
-/*
+
 app.get('/', (req, res) => {
     res.send('Hello from PediLine!');
-});*/
+});
 
 
-const { auth } = require('express-openid-connect');
+// const { auth } = require('express-openid-connect');
 
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: process.env.AUTH_SECRET,
-  baseURL: 'http://localhost:3000',
-  clientID: process.env.AUTH_CLIENT_ID,
-  issuerBaseURL: 'https://dev-z7rq7o4n5qxdrkm2.us.auth0.com'
-};
+// const config = {
+//   authRequired: false,
+//   auth0Logout: true,
+//   secret: process.env.AUTH_SECRET,
+//   baseURL: 'http://localhost:3000',
+//   clientID: process.env.AUTH_CLIENT_ID,
+//   issuerBaseURL: 'https://dev-z7rq7o4n5qxdrkm2.us.auth0.com'
+// };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
+// app.use(auth(config));
 
 // req.isAuthenticated is provided from the auth router
-app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
+// app.get('/', (req, res) => {
+//   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+// });
 
 
 /* Default 404 handler */

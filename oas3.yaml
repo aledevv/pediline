@@ -306,6 +306,144 @@ paths:
       responses:
         '204':
           description: Successo, lista cancellata
+  /users/me:
+    get:
+      summary: Ottieni le informazioni dell'utente corrente
+      description: Ottiene le informazioni dell'utente corrente.
+      tags:
+        - User
+      responses:
+        '200':
+          description: Successo, restituisce le informazioni dell'utente corrente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  self:
+                    type: string
+                    description: Link all'utente corrente
+                  email:
+                    type: string
+                    description: Indirizzo email dell'utente corrente
+  /users:
+    get:
+      summary: Ottieni tutti gli utenti
+      description: Ottiene tutti gli utenti nel sistema.
+      tags:
+        - User
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+          description: Filtra gli utenti per email
+      responses:
+        '200':
+          description: Successo, restituisce tutti gli utenti
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    self:
+                      type: string
+                      description: Link all'utente
+                    email:
+                      type: string
+                      description: Indirizzo email dell'utente
+    post:
+      summary: Crea un nuovo utente
+      description: Crea un nuovo utente nel sistema.
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  description: Indirizzo email del nuovo utente
+                password:
+                  type: string
+                  description: Password del nuovo utente
+      responses:
+        '201':
+          description: Successo, restituisce il link all'utente creato
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Link all'utente creato
+  /auth:
+    post:
+      summary: Autenticazione e ottenimento di un nuovo token
+      description: Autentica l'utente e restituisce un nuovo token.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  description: Indirizzo email dell'utente
+                password:
+                  type: string
+                  description: Password dell'utente
+      responses:
+        '200':
+          description: Successo, restituisce un nuovo token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Stato dell'operazione di autenticazione
+                  message:
+                    type: string
+                    description: Messaggio di risposta
+                  token:
+                    type: string
+                    description: Token JWT generato
+                  email:
+                    type: string
+                    description: Indirizzo email dell'utente autenticato
+                  id:
+                    type: string
+                    description: ID dell'utente autenticato
+                  self:
+                    type: string
+                    description: Link all'utente autenticato
+        '401':
+          description: Non autorizzato, credenziali errate
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Stato dell'operazione di autenticazione
+                  message:
+                    type: string
+                    description: Messaggio di errore
 components:
   schemas:
     Line:
@@ -399,3 +537,27 @@ components:
         leaders: ["leader1", "leader2"]
         studentsPresent: ["student1", "student2"]
         studentsAbsent: ["student3", "student4"]
+    User:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Indirizzo email dell'utente
+        password:
+          type: string
+          description: Password dell'utente
+    Auth:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Indirizzo email dell'utente
+        password:
+          type: string
+          description: Password dell'utente
