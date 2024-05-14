@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
         return {
             self: '/api/v1/lines/' + line.id,
             name: line.name,
+            students: line.students,
             color: line.color,
             stops: line.stops
         };
@@ -26,6 +27,7 @@ router.get('/:id', async (req, res) => {
         res.status(200).json({
             self: '/api/v1/lines/' + line.id,
             name: line.name,
+            students: line.students,
             color: line.color,
             stops: line.stops
         });
@@ -43,6 +45,7 @@ router.post('', async (req, res) => {
 
 	let line = new Line({
         name: req.body.name,
+        students: line.students,
         color: req.body.color,
         stops: req.body.stops
     });
@@ -55,21 +58,20 @@ router.post('', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => { //modifica oggetto specifico
-    //try {
+    let line;
+    try {
         const { id } = req.params;
-        const line = await Line.findByIdAndUpdate(id, req.body);
+        line = await Line.findByIdAndUpdate(id, req.body);
 
         if(!line) {
-            return res.status(404).json({ message: 'Line not found' });
+            return res.status(404).send("Line not found");
         }
+        const update = await Line.findById(id);
+        res.status(200).json(update);
 
-        const updated = await Line.findById(id);
-
-        res.status(200).json(updated);
-
-    /*} catch (err) {
-        res.status(500).json({ message: err.message });
-    }*/
+    } catch (err) {
+        res.status(500).send("500 Internal Server Error");
+    }
 });
 
 // delete gestibile solamente dall'admin? da implementare
