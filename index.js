@@ -1,12 +1,12 @@
 const app = require('./app/app.js');
 const mongoose = require('mongoose');
-const mongoDBToken = require('./config.js');
+const dotenv = require('dotenv').config();
 
 const port = 3000;
 
 
 
-app.locals.db = mongoose.connect(mongoDBToken)
+app.locals.db = mongoose.connect(process.env.DB_URL)
 .then ( () => {
     
     console.log("Connected to Database");
