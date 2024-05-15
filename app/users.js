@@ -4,19 +4,19 @@ const User = require('./models/user'); // get our mongoose model
 
 
 
-router.get('/me', async (req, res) => {
-    if(!req.loggedUser) {
-        return;
-    }
+// router.get('/me', async (req, res) => {
+//     if(!req.loggedUser) {
+//         return;
+//     }
 
-    // https://mongoosejs.com/docs/api.html#model_Model.find
-    let user = await User.findOne({email: req.loggedUser.email});
+//     // https://mongoosejs.com/docs/api.html#model_Model.find
+//     let user = await User.findOne({email: req.loggedUser.email});
 
-    res.status(200).json({
-        self: '/api/v1/users/' + user.id,
-        email: user.email
-    });
-});
+//     res.status(200).json({
+//         self: '/api/v1/users/' + user.id,
+//         email: user.email
+//     });
+// });
 
 router.get('', async (req, res) => {
     let users;
@@ -32,7 +32,7 @@ router.get('', async (req, res) => {
             self: '/api/v1/users/' + entry.id,
             _id: entry.id,
             email: entry.email,
-            type: entry.type,
+            role: entry.role,
             line: entry.line,
             stop: entry.stop
         }
@@ -41,6 +41,27 @@ router.get('', async (req, res) => {
     res.status(200).json(users);
 });
 
+router.get('/:id', async (req, res) => {
+    let user;
+    try {
+        user = await User.findById(req.params.id);    
+        if (!user) {
+            res.status(404).send("404 not found");
+            return;
+        }
+        res.status(200).json({
+            self: '/api/v1/users/' + user.id,
+            email: user.email,
+            role: user.role,
+            line: user.line,
+            stop: user.stop
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("500 Internal Server Error");
+        return;
+    }
+});
 
 router.put('/:id', async (req, res) => { //modifica oggetto specifico
     let user;
@@ -65,7 +86,7 @@ router.post('', async (req, res) => {
 	let user = new User({
         email: req.body.email,
         password: req.body.password,
-        type: req.body.type,
+        role: req.body.role,
         line: req.body.line,
         stop: req.body.stop
     });

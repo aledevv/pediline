@@ -37,11 +37,7 @@ paths:
               $ref: '#/components/schemas/Line'
       responses:
         '201':
-          description: Successo, restituisce la linea creata
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Line'
+          description: Successo, linea creata
   /lines/{id}:
     get:
       summary: Ottieni una linea per ID
@@ -108,6 +104,12 @@ paths:
       description: Ottieni tutte le fermate disponibili nel sistema.
       tags: 
         - Stop
+      parameters:
+        - in: query
+          name: lineId
+          schema:
+            type: string
+          description: Filtra gli stop per Id della linea
       responses:
         '200':
           description: Successo, restituisce tutte le fermate
@@ -130,11 +132,7 @@ paths:
               $ref: '#/components/schemas/Stop'
       responses:
         '201':
-          description: Successo, restituisce la fermata creata
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Stop'
+          description: Successo, fermata creata
   /stops/{id}:
     get:
       summary: Ottieni una fermata per ID
@@ -198,11 +196,7 @@ paths:
               $ref: '#/components/schemas/Calendar'
       responses:
         '201':
-          description: Successo, restituisce il calendario creato
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Calendar'
+          description: Successo, calendario creato
   /calendars/{id}:
     get:
       summary: Ottieni un calendario per ID
@@ -266,11 +260,7 @@ paths:
               $ref: '#/components/schemas/List'
       responses:
         '201':
-          description: Successo, restituisce la lista creata
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/List'
+          description: Successo, lista creata
   /lists/{id}:
     get:
       summary: Ottieni una lista per ID
@@ -306,26 +296,26 @@ paths:
       responses:
         '204':
           description: Successo, lista cancellata
-  /users/me:
-    get:
-      summary: Ottieni le informazioni dell'utente corrente
-      description: Ottiene le informazioni dell'utente corrente.
-      tags:
-        - User
-      responses:
-        '200':
-          description: Successo, restituisce le informazioni dell'utente corrente
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  self:
-                    type: string
-                    description: Link all'utente corrente
-                  email:
-                    type: string
-                    description: Indirizzo email dell'utente corrente
+  # /users/me:
+  #   get:
+  #     summary: Ottieni le informazioni dell'utente corrente
+  #     description: Ottiene le informazioni dell'utente corrente.
+  #     tags:
+  #       - User
+  #     responses:
+  #       '200':
+  #         description: Successo, restituisce le informazioni dell'utente corrente
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 self:
+  #                   type: string
+  #                   description: Link all'utente corrente
+  #                 email:
+  #                   type: string
+  #                   description: Indirizzo email dell'utente corrente
   /users:
     get:
       summary: Ottieni tutti gli utenti
@@ -344,106 +334,74 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    self:
-                      type: string
-                      description: Link all'utente
-                    email:
-                      type: string
-                      description: Indirizzo email dell'utente
+                $ref: '#/components/schemas/User'
     post:
       summary: Crea un nuovo utente
       description: Crea un nuovo utente nel sistema.
-      tags:
+      tags: 
         - User
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  description: Indirizzo email del nuovo utente
-                password:
-                  type: string
-                  description: Password del nuovo utente
+              $ref: '#/components/schemas/User'
       responses:
         '201':
-          description: Successo, restituisce il link all'utente creato
-          headers:
-            Location:
+          description: Successo, utente creato
+  /users/{id}:
+    get:
+      summary: Ottieni un utente per ID
+      description: Ottieni un utente specifico per ID.
+      tags: 
+        - User
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID dell'utente da ottenere
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successo, restituisce l'utente specificato
+          content:
+            application/json:
               schema:
-                type: string
-              description: Link all'utente creato
-  /auth:
-    post:
-      summary: Autenticazione e ottenimento di un nuovo token
-      description: Autentica l'utente e restituisce un nuovo token.
-      tags:
-        - Auth
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Aggiorna un utente per ID
+      description: Aggiorna un utente specifica per ID.
+      tags: 
+        - User
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID dell'utente da aggiornare
+          schema:
+            type: string
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  description: Indirizzo email dell'utente
-                password:
-                  type: string
-                  description: Password dell'utente
+              $ref: '#/components/schemas/User'
+    delete:
+      summary: Cancella un utente per ID
+      description: Cancella un utente specifico per ID.
+      tags: 
+        - User
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID dell'utente da cancellare
+          schema:
+            type: string
       responses:
-        '200':
-          description: Successo, restituisce un nuovo token
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    description: Stato dell'operazione di autenticazione
-                  message:
-                    type: string
-                    description: Messaggio di risposta
-                  token:
-                    type: string
-                    description: Token JWT generato
-                  email:
-                    type: string
-                    description: Indirizzo email dell'utente autenticato
-                  id:
-                    type: string
-                    description: ID dell'utente autenticato
-                  self:
-                    type: string
-                    description: Link all'utente autenticato
-        '401':
-          description: Non autorizzato, credenziali errate
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    description: Stato dell'operazione di autenticazione
-                  message:
-                    type: string
-                    description: Messaggio di errore
+        '204':
+          description: Successo, utente cancellato
 components:
   schemas:
     Line:
@@ -460,18 +418,19 @@ components:
         stops:
           type: array
           items:
-            type: string
+            type: mongoose.Schema.Types.ObjectId
           description: Array di fermate associate alla linea
       example:
         name: "Linea 1"
         color: "verde"
-        stops: ["fermata1_ID", "fermata2_ID"]
+        stops: ["6111e92ecf77c812a056d3d2", "6111e92ecf77c812a056d3d3"]
     Stop:
       type: object
       required:
         - name
         - schedule
         - position
+        - line
       properties:
         name:
           type: string
@@ -484,10 +443,14 @@ components:
           items:
             type: number
           description: Posizione geografica della fermata
+        line:
+          type: mongoose.Schema.Types.ObjectId
+          description: Id della linea associata alla fermata
       example:
         name: "Fermata 1"
-        schedule: "08:00 - 08:30"
+        schedule: "08:00"
         position: [40.7128, -74.0060]
+        line: "6111e92ecf77c812a056d3d2"
     Calendar:
       type: object
       required:
@@ -502,7 +465,7 @@ components:
         bacheca:
           type: string
           format: uuid
-          description: ID del documento Bacheca associato al calendario
+          description: Id del documento Bacheca associato al calendario
       example:
         listePresenze: ["evento1", "evento2"]
         bacheca: "6111e92ecf77c812a056d3d2"
@@ -542,6 +505,7 @@ components:
       required:
         - email
         - password
+        - role
       properties:
         email:
           type: string
@@ -549,15 +513,18 @@ components:
         password:
           type: string
           description: Password dell'utente
-    Auth:
-      type: object
-      required:
-        - email
-        - password
-      properties:
-        email:
+        role:
           type: string
-          description: Indirizzo email dell'utente
-        password:
-          type: string
-          description: Password dell'utente
+          description: Ruolo dell'utente
+        line:
+          type: mongoose.Schema.Types.ObjectId
+          description: Id della linea associata all'utente
+        stop:
+          type: mongoose.Schema.Types.ObjectId
+          description: Id della fermata associata all'utente
+      example:
+        email: "alice@example.com"
+        password: "password1"
+        role: "admin"
+        line: "6111e92ecf77c812a056d3d2"
+        stop: "6111e92ecf77c812a056d3d3"

@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('Line', new Schema({ 
 	name: String,
 	color: String,
-    stops: Array,
-	id: mongoose.Schema.Types.ObjectId
+	// id: mongoose.Schema.Types.ObjectId,
+    stops: Array
+
 }));

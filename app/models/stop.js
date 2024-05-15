@@ -6,5 +6,4 @@ module.exports = mongoose.model('Stop', new Schema({
 	schedule: String,
     position: Array,
 	line: mongoose.Schema.Types.ObjectId
-
 }));

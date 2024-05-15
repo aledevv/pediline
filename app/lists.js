@@ -1,3 +1,4 @@
+/* Il codice delle API di List è stato stilato ma non è ancora stato implementato. */
 const express = require('express');
 const router = express.Router();
 const List = require('./models/list'); 
