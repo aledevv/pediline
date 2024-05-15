@@ -30,6 +30,7 @@ router.get('', async (req, res) => {
     users = users.map( (entry) => {
         return {
             self: '/api/v1/users/' + entry.id,
+            _id: entry.id,
             email: entry.email,
             type: entry.type,
             line: entry.line,
@@ -39,6 +40,25 @@ router.get('', async (req, res) => {
 
     res.status(200).json(users);
 });
+
+
+router.put('/:id', async (req, res) => { //modifica oggetto specifico
+    let user;
+    try {
+        const { id } = req.params;
+        user = await User.findByIdAndUpdate(id, req.body);
+
+        if(!user) {
+            return res.status(404).send("User not found");
+        }
+        const update = await User.findById(id);
+        res.status(200).json(update);
+
+    } catch (err) {
+        res.status(500).send("500 Internal Server Error");
+    }
+});
+
 
 router.post('', async (req, res) => {
     

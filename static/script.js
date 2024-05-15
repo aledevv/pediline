@@ -93,7 +93,7 @@ function showLines() {
             // span.innerHTML += `<button type="button" onclick="takeLine('${line.self}')">Select line</button>`
             let button = document.createElement('button');
             button.type = 'button'
-            button.onclick = ()=>takeLine(line.self)
+            button.onclick = ()=>selectLine(line._id);
             button.textContent = 'Select line';
             
             // Append all our elements
@@ -106,6 +106,25 @@ function showLines() {
     .catch( error => console.error(error) );// If there is any error you will catch them here
     
 }
+
+function selectLine(lineId)
+{
+    fetch('/api/v1/users/' + lineId , {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': loggedUser.token
+        },
+        body: JSON.stringify( {  line: lineId } ),
+    })
+    .then((resp) => {
+        console.log(resp);
+        return;
+    })
+    .catch( error => console.error(error) ); // If there is any error you will catch them here
+
+};
+
 // loadBooks();
 
 /**
@@ -113,24 +132,7 @@ function showLines() {
  * It create a new booklendings resource,
  * given the book and the logged in student
  */
-// function takeBook(bookUrl)
-// {
-//     fetch('../api/v1/booklendings', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'x-access-token': loggedUser.token
-//         },
-//         body: JSON.stringify( { student: loggedUser.self, book: bookUrl } ),
-//     })
-//     .then((resp) => {
-//         console.log(resp);
-//         loadLendings();
-//         return;
-//     })
-//     .catch( error => console.error(error) ); // If there is any error you will catch them here
 
-// };
 
 /**
  * This function refresh the list of bookLendings.
