@@ -45,6 +45,8 @@ router.post('', async function(req, res) {
 		self: "api/v1/" + user._id
 	});
 
+    document.cookie = `token=${token}`;
+
 });
 
 

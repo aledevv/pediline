@@ -8,7 +8,7 @@ const lines = require('./lines.js');
 const stops = require('./stops.js');
 const lists = require('./lists.js');
 const calendars = require('./calendars.js');
-//const users = require('./users.js');
+const users = require('./users.js');
 const authentication = require('./authentication.js');
 const tokenChecker = require('./tokenChecker.js');
 
@@ -45,16 +45,9 @@ app.use('/api/v1/stops', stops);
 app.use('/api/v1/lines', lines);
 app.use('/api/v1/lists', lists);
 app.use('/api/v1/calendars', calendars);
-//app.use('/api/v1/users', users);
+app.use('/api/v1/users', users);
 app.use('api/v1/users/me', tokenChecker);
 app.use('/api/v1/authenticate', authentication);
-
-
-
-app.get('/', (req, res) => {
-    res.send('Hello from PediLine!');
-});
-
 
 // const { auth } = require('express-openid-connect');
 
