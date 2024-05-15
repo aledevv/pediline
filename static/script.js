@@ -82,30 +82,36 @@ function showLines() {
             // let lineId = line.self.substring(line.self.lastIndexOf('/') + 1);
             
             let li = document.createElement('li');
+            li.className = 'list-group-item list-group-item-action';
+            li.onclick = ()=>{showStops(getIdfromURL(line.self)); 
+                            li.className = 'list-group-item list-group-item-action active';};
             let span = document.createElement('span');
             // span.innerHTML = `<a href="${line.self}">${line.name}</a>`;
-            let a = document.createElement('a');
-            a.href = line.self
-            a.textContent = line.name;
+            let label = document.createElement('label');
+            label.href = line.self
+            label.textContent = line.name;
             // span.innerHTML += `<button type="button" onclick="takeLine('${line.self}')">Select line</button>`
             // let button = document.createElement('button');
             // button.type = 'button'
             // button.onclick = ()=>selectLine(getIdfromURL(line.self));
             // button.textContent = 'Select line';
 
-            let stopButton = document.createElement('button');
-            stopButton.type = 'button'
-            stopButton.onclick = ()=>showStops(getIdfromURL(line.self));
-            stopButton.textContent = 'Show stops';
+            // let stopButton = document.createElement('button');
+            // stopButton.type = 'button';
+            // stopButton.className = 'btn pediline-bg';
+            // stopButton.onclick = ()=>showStops(getIdfromURL(line.self));
+            // stopButton.textContent = 'Show stops';
 
 
             let stopUl = document.createElement('ul');
             stopUl.id = getIdfromURL(line.self);
             
             // Append all our elements
-            span.appendChild(a);
+            
             //span.appendChild(button);
-            span.appendChild(stopButton);
+            span.appendChild(label);
+            //span.appendChild(stopButton);
+            
             li.appendChild(span);
             ul.appendChild(li);
             li.appendChild(stopUl);
@@ -156,22 +162,24 @@ function showStops(lineId) {
             // let lineId = line.self.substring(line.self.lastIndexOf('/') + 1);
             
             let li = document.createElement('li');
+            li.style = 'display: flex; justify-content: space-between; margin: 15px;'
             let span = document.createElement('span');
             // span.innerHTML = `<a href="${line.self}">${line.name}</a>`;
-            let a = document.createElement('a');
-            a.href = stop.self
-            a.textContent = stop.name + " - " + stop.schedule;
+            let label = document.createElement('label');
+            label.href = stop.self
+            label.textContent = stop.name + " - " + stop.schedule;
             // span.innerHTML += `<button type="button" onclick="takeLine('${line.self}')">Select line</button>`
             let button = document.createElement('button');
             button.type = 'button'
+            button.className = 'btn btn-light pull-right';
             button.onclick = ()=>selectStop(lineId, getIdfromURL(stop.self));
             button.textContent = 'Select stop';
 
         
             // Append all our elements
-            span.appendChild(a);
-            span.appendChild(button);
+            span.appendChild(label);
             li.appendChild(span);
+            li.appendChild(button);
             ul.appendChild(li);
         })
     })
