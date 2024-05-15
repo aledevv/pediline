@@ -92,12 +92,23 @@ function showLines() {
             button.type = 'button'
             button.onclick = ()=>selectLine(getIdfromURL(line.self));
             button.textContent = 'Select line';
+
+            let stopButton = document.createElement('button');
+            stopButton.type = 'button'
+            stopButton.onclick = ()=>showStops(getIdfromURL(line.self),line.stops);
+            stopButton.textContent = 'Show stops';
+
+
+            let stopUl = document.createElement('ul');
+            stopUl.id = getIdfromURL(line.self);
             
             // Append all our elements
             span.appendChild(a);
             span.appendChild(button);
+            span.appendChild(stopButton);
             li.appendChild(span);
             ul.appendChild(li);
+            li.appendChild(stopUl);
         })
     })
     .catch( error => console.error(error) );// If there is any error you will catch them here
@@ -121,6 +132,60 @@ function selectLine(lineId)
     .catch( error => console.error(error) ); // If there is any error you will catch them here
     getUserLine(lineId);
 };
+
+
+
+
+
+
+function showStops(lineId, stops) {
+
+    const ul = document.getElementById(lineId); 
+
+    ul.textContent = '';
+
+
+    fetch('/api/v1/stops?lineId=' + lineId)
+    .then((resp) => resp.json()) // Transform the data into json
+    .then(function(data) { // Here you get the data to modify as you please
+        
+        console.log(data);
+        
+        return data.map(function(stop) { // Map through the results and for each run the code below
+            
+            // let lineId = line.self.substring(line.self.lastIndexOf('/') + 1);
+            
+            let li = document.createElement('li');
+            let span = document.createElement('span');
+            // span.innerHTML = `<a href="${line.self}">${line.name}</a>`;
+            let a = document.createElement('a');
+            a.href = stop.self
+            a.textContent = stop.name + " - " + stop.schedule;
+            // span.innerHTML += `<button type="button" onclick="takeLine('${line.self}')">Select line</button>`
+            let button = document.createElement('button');
+            button.type = 'button'
+            //button.onclick = ()=>selectLine(getIdfromURL(stop.self));
+            button.textContent = 'Select stop';
+
+        
+            // Append all our elements
+            span.appendChild(a);
+            span.appendChild(button);
+            li.appendChild(span);
+            ul.appendChild(li);
+        })
+    })
+    .catch( error => console.error(error) );// If there is any error you will catch them here
+    
+}
+
+
+
+
+
+
+
+
 
 
 function getIdfromURL(url)

@@ -4,7 +4,14 @@ const Stop = require('./models/stop');
 const stop = require('./models/stop');
 
 router.get('', async (req, res) => {
-    let stops = await Stop.find({});
+    let stops;
+
+    if (req.query.lineId)
+        // https://mongoosejs.com/docs/api.html#model_Model.find
+        stops = await Stop.find({line: req.query.lineId}).sort({ schedule: 1 }).exec();
+    else
+        stops = await Stop.find().exec();
+
     stops = stops.map( (stop) => {
         return {
             self: '/api/v1/stops/' + stop.id,
