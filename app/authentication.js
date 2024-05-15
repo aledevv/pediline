@@ -35,17 +35,19 @@ router.post('', async function(req, res) {
 		expiresIn: 86400 // expires in 24 hours
 	}
 	var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
+    res.cookie('jwt', token, { httpOnly: true, secure: true, maxAge: 3600000 }); 
 
 	res.json({
 		success: true,
 		message: 'Enjoy your token!',
 		token: token,
 		email: user.email,
+		line: user.line,
+		stop: user.stop,
 		id: user._id,
 		self: "api/v1/" + user._id
 	});
 
-    document.cookie = `token=${token}`;
 
 });
 

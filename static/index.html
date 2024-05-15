@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+
+<h1>Pediline</h1>
+
+<form action="api/v1/users" method="post" name="loginform" id="loginform">
+
+  <input name="email" value="tonio.rossi@unitn.it" id="loginEmail"/>
+  <input name="email" value="123" id="loginPassword"/>
+  <button type="button" onclick="login()">Login</button>
+</form>
+<span>Logged User:</span>
+<span id="loggedUser"></span>
+<br>
+<span>User line:</span>
+<span id="userLine"></span>
+<br>
+<span>User stop:</span>
+<span id="userStop"></span>
+<br>
+<!-- <h2>Lines:</h2>
+<ul id="lines"></ul>
+
+<h2>Insert new line:</h2>
+
+<form action="api/v1/lines" method="post" name="lineform" id="lineform">
+  <input name="linename" value="linename" id="lineName"/>
+  <button type="button" onclick="showLines()">Show Lines</button>
+</form> --> -->
+
+
+<script src="script.js"></script> 
+    
+</body>
+
+</html>

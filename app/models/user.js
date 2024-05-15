@@ -5,5 +5,7 @@ var Schema = mongoose.Schema;
 module.exports = mongoose.model('Student', new Schema({ 
 	email: String,
 	password: String,
-	type: String
+	type: String,
+	line: mongoose.Schema.Types.ObjectId,
+	stop: mongoose.Schema.Types.ObjectId
 }));

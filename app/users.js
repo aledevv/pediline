@@ -30,7 +30,10 @@ router.get('', async (req, res) => {
     users = users.map( (entry) => {
         return {
             self: '/api/v1/users/' + entry.id,
-            email: entry.email
+            email: entry.email,
+            type: entry.type,
+            line: entry.line,
+            stop: entry.stop
         }
     });
 
@@ -41,7 +44,10 @@ router.post('', async (req, res) => {
     
 	let user = new User({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        type: req.body.type,
+        line: req.body.line,
+        stop: req.body.stop
     });
 
     if (!user.email || typeof user.email != 'string' || !checkIfEmailInString(user.email)) {
@@ -51,13 +57,13 @@ router.post('', async (req, res) => {
     
 	user = await user.save();
     
-    let studentId = user.id;
+    let userId = user.id;
 
     /**
      * Link to the newly created resource is returned in the Location header
      * https://www.restapitutorial.com/lessons/httpmethods.html
      */
-    res.location("/api/v1/users/" + studentId).status(201).send();
+    res.location("/api/v1/users/" + userId).status(201).send();
 });
 
 

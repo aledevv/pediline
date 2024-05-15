@@ -3,12 +3,12 @@ const app = express();
 
 const dotenv = require('dotenv').config();
 
-// const users = require('./users.js');
+
+const users = require('./users.js');
 const lines = require('./lines.js');
 const stops = require('./stops.js');
 const lists = require('./lists.js');
 const calendars = require('./calendars.js');
-const users = require('./users.js');
 const authentication = require('./authentication.js');
 const tokenChecker = require('./tokenChecker.js');
 
@@ -49,6 +49,7 @@ app.use('/api/v1/users', users);
 app.use('api/v1/users/me', tokenChecker);
 app.use('/api/v1/authenticate', authentication);
 
+app.use('/', express.static('static'));
 // const { auth } = require('express-openid-connect');
 
 // const config = {
