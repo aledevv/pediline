@@ -59,7 +59,7 @@ function getUserStop(stopId){
     fetch('/api/v1/stops/' + stopId)
     .then((resp) => resp.json()) // Transform the data into json
     .then(function(data) { // Here you get the data to modify as you please
-        document.getElementById("userStop").textContent = data.name;
+        document.getElementById("userStop").textContent = data.name + " - " + data.schedule;
     })
     .catch( error => console.error(error) ); // If there is any error you will catch them here
 
@@ -88,14 +88,14 @@ function showLines() {
             a.href = line.self
             a.textContent = line.name;
             // span.innerHTML += `<button type="button" onclick="takeLine('${line.self}')">Select line</button>`
-            let button = document.createElement('button');
-            button.type = 'button'
-            button.onclick = ()=>selectLine(getIdfromURL(line.self));
-            button.textContent = 'Select line';
+            // let button = document.createElement('button');
+            // button.type = 'button'
+            // button.onclick = ()=>selectLine(getIdfromURL(line.self));
+            // button.textContent = 'Select line';
 
             let stopButton = document.createElement('button');
             stopButton.type = 'button'
-            stopButton.onclick = ()=>showStops(getIdfromURL(line.self),line.stops);
+            stopButton.onclick = ()=>showStops(getIdfromURL(line.self));
             stopButton.textContent = 'Show stops';
 
 
@@ -104,7 +104,7 @@ function showLines() {
             
             // Append all our elements
             span.appendChild(a);
-            span.appendChild(button);
+            //span.appendChild(button);
             span.appendChild(stopButton);
             li.appendChild(span);
             ul.appendChild(li);
@@ -138,7 +138,7 @@ function selectLine(lineId)
 
 
 
-function showStops(lineId, stops) {
+function showStops(lineId) {
 
     const ul = document.getElementById(lineId); 
 
@@ -164,7 +164,7 @@ function showStops(lineId, stops) {
             // span.innerHTML += `<button type="button" onclick="takeLine('${line.self}')">Select line</button>`
             let button = document.createElement('button');
             button.type = 'button'
-            //button.onclick = ()=>selectLine(getIdfromURL(stop.self));
+            button.onclick = ()=>selectStop(lineId, getIdfromURL(stop.self));
             button.textContent = 'Select stop';
 
         
@@ -180,12 +180,24 @@ function showStops(lineId, stops) {
 }
 
 
-
-
-
-
-
-
+function selectStop(lineId, stopId)
+{
+    fetch('/api/v1/users/' + loggedUser.id , {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': loggedUser.token
+        },
+        body: JSON.stringify( {  line: lineId, stop: stopId } ),
+    })
+    .then((resp) => {
+        //console.log(resp);
+        return;
+    })
+    .catch( error => console.error(error) ); // If there is any error you will catch them here
+    getUserStop(stopId);
+    getUserLine(lineId);
+}
 
 
 function getIdfromURL(url)
