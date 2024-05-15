@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
         return {
             self: '/api/v1/lines/' + line._id,
             name: line.name,
-            students: line.students,
+            //students: line.students,
             color: line.color,
             stops: line.stops
         };
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
         res.status(200).json({
             self: '/api/v1/lines/' + line.id,
             name: line.name,
-            students: line.students,
+            //students: line.students,
             color: line.color,
             stops: line.stops
         });
@@ -45,7 +45,7 @@ router.post('', async (req, res) => {
 
 	let line = new Line({
         name: req.body.name,
-        students: line.students,
+        //students: line.students,
         color: req.body.color,
         stops: req.body.stops
     });

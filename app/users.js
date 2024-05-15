@@ -87,6 +87,16 @@ router.post('', async (req, res) => {
 });
 
 
+router.delete('/:id', async (req, res) => {
+    let user = await User.findById(req.params.id).exec();
+    if (!user) {
+        res.status(404).send('User not found');
+        return;
+    }
+    await User.findByIdAndDelete(req.params.id).exec();
+    res.status(204).send();
+});
+
 
 // https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
 function checkIfEmailInString(text) {
