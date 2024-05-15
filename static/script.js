@@ -65,9 +65,6 @@ function getUserStop(stopId){
 
 }
 
-/**
- * This function refresh the list of books
- */
 function showLines() {
 
     const ul = document.getElementById('lines'); // Get the list where we will place our authors
@@ -93,7 +90,7 @@ function showLines() {
             // span.innerHTML += `<button type="button" onclick="takeLine('${line.self}')">Select line</button>`
             let button = document.createElement('button');
             button.type = 'button'
-            button.onclick = ()=>selectLine(line._id);
+            button.onclick = ()=>selectLine(getIdfromURL(line.self));
             button.textContent = 'Select line';
             
             // Append all our elements
@@ -109,7 +106,7 @@ function showLines() {
 
 function selectLine(lineId)
 {
-    fetch('/api/v1/users/' + lineId , {
+    fetch('/api/v1/users/' + loggedUser.id , {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -118,77 +115,16 @@ function selectLine(lineId)
         body: JSON.stringify( {  line: lineId } ),
     })
     .then((resp) => {
-        console.log(resp);
+        //console.log(resp);
         return;
     })
     .catch( error => console.error(error) ); // If there is any error you will catch them here
-
+    getUserLine(lineId);
 };
 
-// loadBooks();
 
-/**
- * This function is called by the Take button beside each book.
- * It create a new booklendings resource,
- * given the book and the logged in student
- */
+function getIdfromURL(url)
+{
+    return url.substring(url.lastIndexOf('/') + 1);
+}
 
-
-/**
- * This function refresh the list of bookLendings.
- * It only load bookLendings given the logged in student.
- * It is called every time a book is taken of when the user login.
-//  */
-// function loadLendings() {
-
-//     const ul = document.getElementById('bookLendings'); // Get the list where we will place our lendings
-
-//     ul.innerHTML = '';
-
-//     fetch('../api/v1/booklendings?studentId=' + loggedUser.id + '&token=' + loggedUser.token)
-//     .then((resp) => resp.json()) // Transform the data into json
-//     .then(function(data) { // Here you get the data to modify as you please
-        
-//         console.log(data);
-        
-//         return data.map( (entry) => { // Map through the results and for each run the code below
-            
-//             // let bookId = book.self.substring(book.self.lastIndexOf('/') + 1);
-            
-//             let li = document.createElement('li');
-//             let span = document.createElement('span');
-//             // span.innerHTML = `<a href="${entry.self}">${entry.book}</a>`;
-//             let a = document.createElement('a');
-//             a.href = entry.self
-//             a.textContent = entry.book;
-            
-//             // Append all our elements
-//             span.appendChild(a);
-//             li.appendChild(span);
-//             ul.appendChild(li);
-//         })
-//     })
-//     .catch( error => console.error(error) );// If there is any error you will catch them here
-    
-// }
-
-
-/**
- * This function is called by clicking on the "insert book" button.
- * It creates a new book given the specified title,
- * and force the refresh of the whole list of books.
- */
-// function showLines()
-// {
-
-//     fetch('/api/v1/lines', {
-//         method: 'GET',
-//         headers: { 'Content-Type': 'application/json' },
-//     })
-//     .then((resp) => {
-//         console.log(resp);
-//         return;
-//     })
-//     .catch( error => console.error(error) ); // If there is any error you will catch them here
-
-// };
