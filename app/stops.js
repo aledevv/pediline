@@ -1,15 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const Stop = require('./models/stop');
+const stop = require('./models/stop');
 
 router.get('', async (req, res) => {
-    let stops = await Stop.find({});
+    let stops;
+
+    if (req.query.lineId)
+        // https://mongoosejs.com/docs/api.html#model_Model.find
+        stops = await Stop.find({line: req.query.lineId}).sort({ schedule: 1 }).exec();
+    else
+        stops = await Stop.find().exec();
+
     stops = stops.map( (stop) => {
         return {
             self: '/api/v1/stops/' + stop.id,
             name: stop.name,
             schedule: stop.schedule,
-            position: stop.position
+            position: stop.position,
+            line: stop.line
         };
     });
     res.status(200).json(stops);
@@ -27,7 +36,8 @@ router.get('/:id', async (req, res) => {
             self: '/api/v1/stops/' + stop.id,
             name: stop.name,
             schedule: stop.schedule,
-            position: stop.position
+            position: stop.position,
+            line: stop.line
         });
     } catch (error) {
         console.error(error);
@@ -42,7 +52,8 @@ router.post('', async (req, res) => {
 	let stop = new Stop({
         name: req.body.name,
         schedule: req.body.schedule,
-        position: req.body.position
+        position: req.body.position,
+        line: req.body.line
     });
     
 	stop = await stop.save();

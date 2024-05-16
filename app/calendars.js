@@ -1,3 +1,4 @@
+/* Il codice delle API di Calendar è stato stilato ma non è ancora stato implementato. */
 const express = require('express');
 const router = express.Router();
 const Calendar = require('./models/calendar');

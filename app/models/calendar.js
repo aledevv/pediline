@@ -1,3 +1,4 @@
+/* Il codice delle API di Calendar è stato stilato ma non è ancora stato implementato. */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
