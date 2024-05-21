@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon_videomaker</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon_videomaker" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="videomaker">
+            <rect id="Rectangle-Copy-41" x="0" y="0" width="40" height="40"></rect>
+            <g id="header-icon-01" transform="translate(3.200000, 6.200000)" fill="#2BBFB8" fill-rule="nonzero">
+                <path d="M32.8,0 L0.8,0 C0.3581722,0 0,0.3581722 0,0.8 L0,26.8 C0,27.2418278 0.3581722,27.6 0.8,27.6 L32.8,27.6 C33.2418278,27.6 33.6,27.2418278 33.6,26.8 L33.6,0.8 C33.6,0.3581722 33.2418278,0 32.8,0 Z M32,1.6 L32,4 L1.6,4 L1.6,1.6 L32,1.6 Z M1.6,26 L1.6,5.6 L32,5.6 L32,26 L1.6,26 Z" id="Shape"></path>
+                <path d="M22.224,14.1216 L14.224,9.1216 C13.9773847,8.96746504 13.6665488,8.95930348 13.4121848,9.10028434 C13.1578207,9.2412652 13,9.50917931 13,9.8 L13,19.8 C13,20.0908207 13.1578207,20.3587348 13.4121848,20.4997157 C13.6665488,20.6406965 13.9773847,20.632535 14.224,20.4784 L22.224,15.4784 C22.4579063,15.3322096 22.600003,15.0758329 22.600003,14.8 C22.600003,14.5241671 22.4579063,14.2677904 22.224,14.1216 Z M14.6,18.3566 L14.6,11.2434 L20.2906,14.8 L14.6,18.3566 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>
