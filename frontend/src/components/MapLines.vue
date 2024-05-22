@@ -10,6 +10,10 @@
   import 'maplibre-gl/dist/maplibre-gl.css';
   import '@maptiler/sdk/dist/maptiler-sdk.css';
   
+  import { martignano } from './data/linea.js';
+
+
+
   const mapContainer = shallowRef(null);
   const map = shallowRef(null);
   
@@ -25,18 +29,19 @@
       zoom: initialState.zoom
     }));
 
-    
 
     new Marker({color: "#FF0000"})
         .setLngLat([11.150447, 46.066752])
         .addTo(map.value);
+
+    
 
     map.value.on('load', function () {
         // Add a layer showing the state polygons.
         //const geojson = await maptilersdk.data.get('https://api.maptiler.com/data/a200af79-67fa-4a7d-9389-2dd0a929027e/features.json?key=NRQ1JpJfPZoVGBQhQCxP');
         map.value.addSource('route', {
             'type': 'geojson',
-            'data': 'https://api.maptiler.com/data/a200af79-67fa-4a7d-9389-2dd0a929027e/features.json?key=NRQ1JpJfPZoVGBQhQCxP'
+            'data': martignano
         });
 
         //then add the layer to the map. Display the "route" source data
@@ -50,18 +55,19 @@
             },
             'paint': {
                 'line-color': '#FF905D',
-                'line-width': 3
+                'line-width': 6
             }
         });
     });
     //first add the source with the "route" id to the map
-    
+
   });
 
 
   onUnmounted(() => {
     map.value?.remove();
   });
+
   </script>
   
   <style scoped>
