@@ -1,28 +1,9 @@
-// necessaria?
-// previous version
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-
-// const mongoose = require('mongoose');
-
-// const schoolSchema = new mongoose.Schema(
-//     {
-//         name: {
-//             type: String,
-//             required: [true, 'Please enter school name'],
-//         },
-//         line: {
-//             type: Array,
-//             required: false,
-//         },
-//         position: {
-//             type: Array,
-//             required: [true, 'Please enter coordinates'], 
-//         }
-//     },
-//     {
-//         timestamps: true
-//     },
-// );
-
-// const School = mongoose.model('Scuola', schoolSchema);
-// module.exports = School;
+module.exports = mongoose.model('School', new Schema({ 
+	name: String,
+	linesId: Array,
+    position: Array,
+	
+}));

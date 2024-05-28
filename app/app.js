@@ -8,6 +8,7 @@ const users = require('./users.js');
 const lines = require('./lines.js');
 const stops = require('./stops.js');
 const lists = require('./lists.js');
+const schools = require('./schools.js');
 const calendars = require('./calendars.js');
 const authentication = require('./authentication.js');
 const tokenChecker = require('./tokenChecker.js');
@@ -44,6 +45,7 @@ app.use((req,res,next) => {
 app.use('/api/v1/stops', stops);
 app.use('/api/v1/lines', lines);
 app.use('/api/v1/lists', lists);
+app.use('/api/v1/schools', schools);
 app.use('/api/v1/calendars', calendars);
 app.use('/api/v1/users', users);
 app.use('api/v1/users/me', tokenChecker);

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Stop = require('./models/stop');
-const stop = require('./models/stop');
+
 
 router.get('', async (req, res) => {
     let stops;
