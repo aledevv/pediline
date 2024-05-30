@@ -10,7 +10,8 @@ router.get('/', async (req, res) => {
             name: line.name,
             //students: line.students,
             color: line.color,
-            stops: line.stops
+            stops: line.stops,
+            schoolId: line.schoolId
         };
     });
     res.status(200).json(lines);
@@ -29,6 +30,7 @@ router.get('/:id', async (req, res) => {
             name: line.name,
             //students: line.students,
             color: line.color,
+            schoolId: line.schoolId,
             stops: line.stops
         });
     } catch (error) {
@@ -47,6 +49,7 @@ router.post('', async (req, res) => {
         name: req.body.name,
         //students: line.students,
         color: req.body.color,
+        schoolId: req.body.schoolId,
         stops: req.body.stops
     });
     
