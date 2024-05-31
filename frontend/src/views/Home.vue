@@ -200,7 +200,7 @@
   
   const windowWidth = ref(window.innerWidth)
   const drawer = ref(true)
-  const role = 'user' // "user" o "accompagnatore" // ------------------- CAMBIA QUI -------------------
+  const role = 'accompagnatore' // "user" o "accompagnatore" // ------------------- CAMBIA QUI -------------------
   
   const service_status = ref('stopped')
   const activeButton = ref('playButton')
