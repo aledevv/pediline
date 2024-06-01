@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import ListaPresenze from '../views/ListaPresenze.vue'
+import GestionePresenze from '../views/GestionePresenze.vue'
 
 const routes = [  // definisce le routes dell'applicazione
   {
@@ -12,6 +13,11 @@ const routes = [  // definisce le routes dell'applicazione
     path: '/lista-presenze',
     name: 'ListaPresenze',
     component: ListaPresenze // importa il componente GestionePresenze
+  },
+  {
+    path: '/presenze',
+    name: 'presenze',
+    component: GestionePresenze
   },
 
   // catch all 404

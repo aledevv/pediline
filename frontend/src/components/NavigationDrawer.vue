@@ -22,7 +22,7 @@
       </template>
       <template v-else>
         <v-list-item prepend-icon="mdi-login" title="Login" to="/login" link></v-list-item>
-        <v-list-item prepend-icon="mdi-account-plus" title="Signup" to="/signup" link></v-list-item>
+        <v-list-item prepend-icon="mdi-account-plus" title="Sign up" to="/signup" link></v-list-item>
       </template>
     </v-sheet>
 
@@ -47,11 +47,11 @@ provide('state', state)
 
 const drawer = ref(true)
 const links = [
-  ['mdi-home', 'Home', '/'],
-  ['mdi-map', 'Linee', '/linee'],
-  ['mdi-calendar', 'Calendario', '/calendario'],
-  // account e logout sono fatti a parte
-]
+    ['mdi-home', 'Home', '/'],
+    ['mdi-map', 'Linee', '/linee'],
+    ['mdi-check-circle', 'Gestione presenze', '/presenze'],
+    // account e logout sono fatti a parte
+  ]
 
 const toggleDrawer = () => {
   drawer.value = !drawer.value

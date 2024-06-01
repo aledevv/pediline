@@ -6,6 +6,9 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { VCalendar } from 'vuetify/labs/VCalendar'
 
+// Translations provided by Vuetify
+import { it, en } from 'vuetify/locale'
+
 const myCustomLightTheme = {
   dark: false,
   colors: {
@@ -61,5 +64,10 @@ export default createVuetify({
   },
   components: {
     VCalendar,
+  },
+  locale: {
+    locale: 'it',
+    fallback: 'en',
+    messages: { it, en },
   }
 })
