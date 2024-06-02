@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import ListaPresenze from '../views/ListaPresenze.vue'
 import GestionePresenze from '../views/GestionePresenze.vue'
-
+import Login from '../views/Login.vue' 
+import Signup from '../views/Signup.vue'
 const routes = [  // definisce le routes dell'applicazione
   {
     path: '/',
@@ -19,7 +20,16 @@ const routes = [  // definisce le routes dell'applicazione
     name: 'presenze',
     component: GestionePresenze
   },
-
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: Signup
+  },
   // catch all 404
   {
     path: '/:catchAll(.*)',
