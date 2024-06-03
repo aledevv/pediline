@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+
+app.use(cors());
 
 const dotenv = require('dotenv').config();
 
@@ -52,6 +55,7 @@ app.use('api/v1/users/me', tokenChecker);
 app.use('/api/v1/authenticate', authentication);
 
 app.use('/', express.static('static'));
+
 // const { auth } = require('express-openid-connect');
 
 // const config = {

@@ -6,9 +6,9 @@ const Stop = require('./models/stop');
 router.get('', async (req, res) => {
     let stops;
 
-    if (req.query.lineId)
+    if (req.query.line)
         // https://mongoosejs.com/docs/api.html#model_Model.find
-        stops = await Stop.find({line: req.query.lineId}).sort({ schedule: 1 }).exec();
+        stops = await Stop.find({line: req.query.line}).sort({ schedule: 1 }).exec();
     else
         stops = await Stop.find().exec();
 
@@ -22,6 +22,9 @@ router.get('', async (req, res) => {
         };
     });
     res.status(200).json(stops);
+
+    
+
 });
 
 router.get('/:id', async (req, res) => {
