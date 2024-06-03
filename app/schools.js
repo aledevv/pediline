@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
     schools = schools.map( (school) => {
         return {
             self: '/api/v1/schools/' + school._id,
+            id: school._id,
             name: school.name,
             linesId: school.linesId,
             position: school.position
