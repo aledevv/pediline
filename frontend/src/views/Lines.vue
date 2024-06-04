@@ -19,7 +19,7 @@
               @change="updateLines"
             ></v-combobox>
 
-            <v-card class="mt-3" max-width="400" v-for="line in lines" :key="line">
+            <v-card class="mt-3" max-width="400" v-for="line in lines" :key="line" v-if="lines.length > 0">
               <v-card-title>{{ line.name }}</v-card-title>
 
               <v-card-text>
@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import NavigationDrawer from '@/components/NavigationDrawer.vue';
 
 const HOST = 'http://localhost:3000/api/v1';
@@ -62,21 +62,17 @@ const LINE_URL = `${HOST}/lines`;
 const STOP_URL = `${HOST}/stops`;
 const SCHOOL_URL = `${HOST}/schools`;
 
-//const schools = ['Povo', 'Mesiano', 'Centro', 'Villazzano', 'Sardagna', 'Gardolo', 'Cognola', 'Vaneze', 'Vela', 'Ravina']
-
 const schools = {};
 const schools_name = ref([]); // Array of schools name
 const selectedSchool = ref(''); // School to show
-
-
-// alert(schools[selectedSchool.value].lines[0].stops[0].name)
+const lines = ref([]); // Array of lines
 
 const fetchSchools = async () => {
   try {
     const response = await fetch(SCHOOL_URL);
     const data = await response.json();
-    
-    for (let school of data) {    // create object with schools each one is a line
+
+    for (let school of data) {
       const schoolLines = await fetchStopsByLines(school.linesId);
       schools[school.name] = {
         id: school.id,
@@ -85,9 +81,11 @@ const fetchSchools = async () => {
       };
     }
 
-    setArrayOfSchoolsName();   // create list of names of schools to show in combobox
-    
-    selectedSchool.value = schools_name.value[0]  // Set the default selected school
+    setArrayOfSchoolsName(); // create list of names of schools to show in combobox
+
+    selectedSchool.value = schools_name.value[0]; // Set the default selected school
+
+    updateLines(); // Update lines after setting the default school
 
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -95,7 +93,7 @@ const fetchSchools = async () => {
 };
 
 async function fetchStopsByLines(lineList) {
-  const lines = [];
+  const linesArray = [];
   try {
     for (let lineId of lineList) {
       const response = await fetch(`${LINE_URL}/${lineId}`);
@@ -103,7 +101,7 @@ async function fetchStopsByLines(lineList) {
 
       const stopsResponse = await fetch(`${STOP_URL}/?line=${lineId}`);
       const stopsData = await stopsResponse.json();
-      lines.push({
+      linesArray.push({
         id: lineData.id,
         name: lineData.name,
         stops: stopsData
@@ -112,7 +110,7 @@ async function fetchStopsByLines(lineList) {
   } catch (error) {
     console.error('Error fetching data:', error);
   }
-  return lines;
+  return linesArray;
 };
 
 function setArrayOfSchoolsName() {
@@ -130,10 +128,14 @@ const updateLines = () => {
   }
 };
 
-// Chiama la funzione fetchStops quando il componente viene montato
+watch(selectedSchool, updateLines);
+
 onMounted(() => {
   fetchSchools();
 });
+
+
+
 
 </script>
 
