@@ -1,4 +1,4 @@
-const app = require('./app/app.js');
+const app = require('./backend/server.js');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 
