@@ -4,9 +4,11 @@ const Line = require('./models/line');
 
 router.get('/', async (req, res) => {
     let lines = await Line.find({});
+    
     lines = lines.map( (line) => {
         return {
-            self: '/api/v1/lines/' + line._id,
+            self: '/api/v1/lines/' + line.id,
+            id: line.id,
             name: line.name,
             //students: line.students,
             color: line.color,
@@ -27,6 +29,7 @@ router.get('/:id', async (req, res) => {
         }
         res.status(200).json({
             self: '/api/v1/lines/' + line.id,
+            id: line.id,
             name: line.name,
             //students: line.students,
             color: line.color,

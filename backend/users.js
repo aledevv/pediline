@@ -41,6 +41,29 @@ router.get('', async (req, res) => {
     res.status(200).json(users);
 });
 
+
+
+router.get('/exist', async (req, res) => {
+    try {
+        if (req.query.email) {
+            // Cerca un singolo utente con l'email fornita
+            const existingUser = await User.findOne({ email: req.query.email }).exec();
+            if (existingUser) {
+                return res.status(200).json({ exists: true });
+            } else {
+                return res.status(200).json({ exists: false });
+            }
+        } else {
+            return res.status(400).json({ error: 'The field "email" must be provided' });
+        }
+    } catch (error) {
+        console.error('Error while fetching users:', error);
+        return res.status(500).json({ error: 'An error occurred while fetching users' });
+    }
+});
+
+
+
 router.get('/:id', async (req, res) => {
     let user;
     try {
@@ -82,30 +105,47 @@ router.put('/:id', async (req, res) => { //modifica oggetto specifico
 
 
 router.post('', async (req, res) => {
-    
-	let user = new User({
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role,
-        line: req.body.line,
-        stop: req.body.stop
-    });
+    try {
+        let user = new User({
+            email: req.body.email,
+            password: req.body.password, // Salva la password in chiaro (NON SICURO)
+            role: req.body.role,
+            // if line exists, give it req.body.line, otherwise give it null
+            line: req.body.line,
+            // if stop exists, give it req.body.stop, otherwise give it null
+            stop: req.body.stop 
+        });
 
-    if (!user.email || typeof user.email != 'string' || !checkIfEmailInString(user.email)) {
-        res.status(400).json({ error: 'The field "email" must be a non-empty string, in email format' });
-        return;
+        if (!user.email || typeof user.email != 'string' || !checkIfEmailInString(user.email)) {
+            return res.status(400).json({ error: 'The field "email" must be a non-empty string, in email format' });
+        }
+        
+        user = await user.save();
+        
+        let userId = user.id;
+
+        /**
+         * Link to the newly created resource is returned in the Location header
+         * https://www.restapitutorial.com/lessons/httpmethods.html
+         */
+        return res.status(201).json({
+            message: 'User registered successfully',
+            user: {
+                id: userId,
+                email: user.email,
+                role: user.role,
+                line: user.line,
+                stop: user.stop
+            }
+        });
+    } catch (error) {
+        console.error('Error while registering user:', error);
+        return res.status(500).json({ error: 'An error occurred while registering the user' });
     }
-    
-	user = await user.save();
-    
-    let userId = user.id;
-
-    /**
-     * Link to the newly created resource is returned in the Location header
-     * https://www.restapitutorial.com/lessons/httpmethods.html
-     */
-    res.location("/api/v1/users/" + userId).status(201).send();
 });
+
+
+
 
 
 router.delete('/:id', async (req, res) => {
