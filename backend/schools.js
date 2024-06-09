@@ -5,17 +5,29 @@ const School = require('./models/school');
 
 
 router.get('/', async (req, res) => {
-    let schools = await School.find({});
-    schools = schools.map( (school) => {
-        return {
-            self: '/api/v1/schools/' + school._id,
-            name: school.name,
-            linesId: school.linesId,
-            position: school.position
-        };
-    });
-    res.status(200).json(schools);
+    try {
+        // Fetch schools from the database, sorted by name
+        let schools = await School.find({}).sort({ name: 1 });
+
+        // Map the results to the desired format
+        schools = schools.map((school) => {
+            return {
+                self: '/api/v1/schools/' + school._id,
+                id: school._id,
+                name: school.name,
+                linesId: school.linesId,
+                position: school.position
+            };
+        });
+
+        // Send the sorted results as the response
+        res.status(200).json(schools);
+    } catch (error) {
+        // Handle any errors that occur during the process
+        res.status(500).json({ error: error.message });
+    }
 });
+
 
 
 router.get('/:id', async (req, res) => {

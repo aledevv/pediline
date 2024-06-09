@@ -1,7 +1,16 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const path = require('path');
 
-const dotenv = require('dotenv').config();
+app.use(cors({
+    origin: 'http://localhost:8080',
+    credentials: true
+  }));
+  app.use(cookieParser());
+
+const dotenv = require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 
 const users = require('./users.js');
@@ -10,6 +19,7 @@ const stops = require('./stops.js');
 const lists = require('./lists.js');
 const schools = require('./schools.js');
 const calendars = require('./calendars.js');
+const alerts = require('./alerts.js');
 const authentication = require('./authentication.js');
 const tokenChecker = require('./tokenChecker.js');
 
@@ -48,10 +58,12 @@ app.use('/api/v1/lists', lists);
 app.use('/api/v1/schools', schools);
 app.use('/api/v1/calendars', calendars);
 app.use('/api/v1/users', users);
-app.use('api/v1/users/me', tokenChecker);
+app.use('/api/v1/token', tokenChecker);
 app.use('/api/v1/authenticate', authentication);
+app.use('/api/v1/alerts', alerts);
 
 app.use('/', express.static('static'));
+
 // const { auth } = require('express-openid-connect');
 
 // const config = {
