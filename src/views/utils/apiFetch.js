@@ -62,6 +62,17 @@ const fetchSchools = async () => {
   }
 };
 
+const fetchSchoolFromId = async (id) => {
+  try {
+    const response = await fetch(API_ENDPOINTS.SCHOOL_URL + `/${id}`);
+    const data = await response.json();
+
+    return data;
+
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
 
 
 async function createSchool(school){
@@ -143,6 +154,18 @@ async function fetchUserInfo(data) {
   loggedUser.token = data.token;
 }
 
+async function updateUserInfo(id, body){
+  const response = await fetch(API_ENDPOINTS.USER_URL + `/${id}`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+  });
+  const data = await response.json();
+  console.log('User updated:', data);
+  return data;
+}
 
 // ------------------------------------- STOPS AND LINES
 
@@ -283,5 +306,5 @@ async function deleteStop(id) {
 // ----------------------- EXPORT FUNCTIONS --------------------
 
 export { fetchSchools, fetchSchoolsFull, fetchToken, fetchUserInfo, fetchStopsByLines, fetchLineFromId, fetchStopFromId, 
-  fetchStops, fetchLines, createSchool, deleteSchool, fetchAlerts, createLine, updateSchool, deleteLine, 
+  fetchStops, fetchLines, createSchool, deleteSchool, fetchAlerts, createLine, updateSchool, fetchSchoolFromId, deleteLine, 
   updateLine, createStop, deleteStop, updateUserInfo };
