@@ -14,7 +14,3 @@ npm run backend
 ```
 npm run frontend
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-# vue_template
