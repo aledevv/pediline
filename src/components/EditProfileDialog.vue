@@ -163,6 +163,10 @@ export default {
             dialog.value = false;
         }
 
+        async function openDialog(){
+            dialog.value = true;
+        }
+
         async function saveChanges(){
             let schoolId = '';
 
@@ -198,21 +202,26 @@ export default {
                 stop: stopId
             };
 
+            console.log("user now:", loggedUser);
+
             let response = await updateUserInfo(loggedUser.id, body);
 
             closeDialog();
         }
 
         onBeforeMount(async () => {
-            isFetching = true;
-            let response = await fetchSchools();
-            dataDictionary.value = await createDictionary(response);
-            console.log("DICT:", dataDictionary.value);                           // DIZIONARIO SCUOLE
-            selectedSchool.value = dataDictionary.value[loggedUser.school_id].name;
-            selectedLine.value = dataDictionary.value[loggedUser.school_id].lines[loggedUser.line_id].name;
-            selectedStop.value = dataDictionary.value[loggedUser.school_id].lines[loggedUser.line_id].stops[loggedUser.stop_id].name;
-            await getSchoolDropDown();
-            isFetching = false;
+
+            //if(loggedUser.token && loggedUser.line_id!=undefined && loggedUser.school_id!=undefined  && loggedUser.stop_id!=undefined ){ 
+                isFetching = true;
+                let response = await fetchSchools();
+                dataDictionary.value = await createDictionary(response);
+                console.log("DICT:", dataDictionary.value);                           // DIZIONARIO SCUOLE
+                selectedSchool.value = dataDictionary.value[loggedUser.school_id].name;
+                selectedLine.value = dataDictionary.value[loggedUser.school_id].lines[loggedUser.line_id].name;
+                selectedStop.value = dataDictionary.value[loggedUser.school_id].lines[loggedUser.line_id].stops[loggedUser.stop_id].name;
+                await getSchoolDropDown();
+                isFetching = false;
+           // }
         });
 
 
