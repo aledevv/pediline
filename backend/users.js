@@ -4,19 +4,6 @@ const User = require('./models/user'); // get our mongoose model
 
 
 
-// router.get('/me', async (req, res) => {
-//     if(!req.loggedUser) {
-//         return;
-//     }
-
-//     // https://mongoosejs.com/docs/api.html#model_Model.find
-//     let user = await User.findOne({email: req.loggedUser.email});
-
-//     res.status(200).json({
-//         self: '/api/v1/users/' + user.id,
-//         email: user.email
-//     });
-// });
 
 router.get('', async (req, res) => {
     let users;
@@ -30,9 +17,10 @@ router.get('', async (req, res) => {
     users = users.map( (entry) => {
         return {
             self: '/api/v1/users/' + entry.id,
-            _id: entry.id,
+            id: entry.id,
             email: entry.email,
             role: entry.role,
+            school: entry.school,
             line: entry.line,
             stop: entry.stop
         }
@@ -74,8 +62,10 @@ router.get('/:id', async (req, res) => {
         }
         res.status(200).json({
             self: '/api/v1/users/' + user.id,
+            id: user.id,
             email: user.email,
             role: user.role,
+            school: user.school,
             line: user.line,
             stop: user.stop
         });
@@ -110,6 +100,8 @@ router.post('', async (req, res) => {
             email: req.body.email,
             password: req.body.password, // Salva la password in chiaro (NON SICURO)
             role: req.body.role,
+            // if school exists, give it req.body.school, otherwise give it null
+            school: req.body.school,
             // if line exists, give it req.body.line, otherwise give it null
             line: req.body.line,
             // if stop exists, give it req.body.stop, otherwise give it null
@@ -134,6 +126,7 @@ router.post('', async (req, res) => {
                 id: userId,
                 email: user.email,
                 role: user.role,
+                school: user.school,
                 line: user.line,
                 stop: user.stop
             }
@@ -154,7 +147,7 @@ router.delete('/:id', async (req, res) => {
         res.status(404).send('User not found');
         return;
     }
-    await User.findByIdAndDelete(req.params.id).exec();
+    await user.deleteOne();
     res.status(204).send();
 });
 

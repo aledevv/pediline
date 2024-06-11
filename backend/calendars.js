@@ -25,6 +25,7 @@ router.get('/:id', async (req, res) => {
         }
         res.status(200).json({
             self: '/api/v1/calendars/' + calendar.id,
+            id: calendar.id,
             listePresenze: calendar.listePresenze,
             bacheca: calendar.bacheca
         });
@@ -34,16 +35,6 @@ router.get('/:id', async (req, res) => {
         return;
     }
     
-});
-
-
-router.get('/:id', async (req, res) => {
-    let calendar = await Calendar.findById(req.params.id);
-    res.status(200).json({
-        self: '/api/v1/calendars/' + calendar.id,
-        listePresenze: calendar.listePresenze,
-        bacheca: calendar.bacheca
-    });
 });
 
 

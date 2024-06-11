@@ -27,6 +27,7 @@ router.get('/:id', async (req, res) => {
         }
         res.status(200).json({
             self: '/api/v1/lists/' + list.id,
+            id: list.id,
             day: list.day,
             leaders: list.leaders,
             studentsPresent: list.studentsPresent,
