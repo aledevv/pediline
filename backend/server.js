@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 app.use(cors({
-    origin: 'http://localhost:8080',
+    origin: 'http://localhost:10000',
     credentials: true
   }));
   app.use(cookieParser());
@@ -62,7 +62,12 @@ app.use('/api/v1/token', tokenChecker);
 app.use('/api/v1/authenticate', authentication);
 app.use('/api/v1/alerts', alerts);
 
-app.use('/', express.static('static'));
+const vueDistPath = path.join(__dirname, '../dist');
+app.use(express.static(vueDistPath));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(vueDistPath, 'index.html'));
+});
 
 // const { auth } = require('express-openid-connect');
 

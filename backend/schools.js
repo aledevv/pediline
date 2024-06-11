@@ -40,6 +40,7 @@ router.get('/:id', async (req, res) => {
         }
         res.status(200).json({
             self: '/api/v1/schools/' + school.id,
+            id: school.id,
             name: school.name,
             linesId: school.linesId,
             position: school.position
@@ -82,6 +83,7 @@ router.put('/:id', async (req, res) => {
         res.status(200).json(update);
 
     } catch (err) {
+        console.log("API:", req.body);
         res.status(500).send("500 Internal Server Error");
     }
 });
