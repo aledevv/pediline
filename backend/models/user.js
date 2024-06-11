@@ -6,7 +6,7 @@ module.exports = mongoose.model('User', new Schema({
 	email: String,
 	password: String,
 	role: String,
-	school: mongoose.Schema.Types.ObjectId,
+	school	: mongoose.Schema.Types.ObjectId,
 	line: mongoose.Schema.Types.ObjectId,
 	stop: mongoose.Schema.Types.ObjectId
 }));

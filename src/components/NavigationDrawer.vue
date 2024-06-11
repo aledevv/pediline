@@ -1,10 +1,17 @@
 <template>
   <v-app-bar color="secondary" elevation="1" prominent>
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
+    <v-container align="center">
+        <v-img
+          :width="300"
+          height="40"
+          contain
+          src="../assets/logo.png"
+        ></v-img>
+      </v-container>
     <v-spacer></v-spacer>
     <template v-if="loggedUser.token">
-
+     
       <EditProfile />
       <v-btn to="/logout" icon="mdi-logout" variant="text"></v-btn>
     </template>
@@ -16,9 +23,9 @@
     <v-sheet class="pa-4" color="secondary">
       <template v-if="loggedUser.token">
         <v-avatar class="mb-4"
-          image="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnN8ZW58MHx8MHx8&w=1000&q=80"
+          image="https://t3.ftcdn.net/jpg/05/71/08/24/360_F_571082432_Qq45LQGlZsuby0ZGbrd79aUTSQikgcgc.jpg"
           size="64"></v-avatar>
-        <div>Mail</div>
+          <div v-text="loggedUser.email"></div>
       </template>
       <template v-else>
         <v-list-item prepend-icon="mdi-login" title="Login" to="/login" link></v-list-item>

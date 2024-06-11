@@ -7,7 +7,8 @@
     "frontend": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "backend": "nodemon index.js",
-    "test": "jest"
+    "test": "jest",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.24.6",
@@ -16,6 +17,7 @@
     "@maptiler/sdk": "^2.0.3",
     "@mdi/font": "5.9.55",
     "body-parser": "^1.20.2",
+    "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "core-js": "^3.8.3",
     "cors": "^2.8.5",

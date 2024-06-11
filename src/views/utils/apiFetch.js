@@ -1,4 +1,4 @@
-const HOST = 'http://localhost:3000/api/v1';
+const HOST = 'http://localhost:10000/api/v1';
 import { setLoggedUser, loggedUser, getInfo } from '../../states/loggedUser.js';
 
 const API_ENDPOINTS = {

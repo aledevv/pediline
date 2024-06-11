@@ -122,7 +122,7 @@
           <v-col>
             <v-card title="Mappa delle Linee">
               <v-sheet rounded="lg" max-width="100%">
-                <MapLines :center="mapCenter" :zoom="mapZoom" :schoolName="'Scuola ' + selectedSchool" :color="mapColor"/> <!-- Map component -->
+                <MapLines/> <!-- Map component -->
               </v-sheet>
             </v-card>
           </v-col>
@@ -313,10 +313,12 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onBeforeMount, ref, watch } from 'vue'
 import MapLines from '@/components/MapLines.vue'
+import { useRouter } from 'vue-router';
+import { loggedUser } from "../states/loggedUser.js"
 import NavigationDrawer from '@/components/NavigationDrawer.vue'
-import { fetchSchoolsFull, createSchool, deleteSchool, createLine, updateSchool, fetchSchoolFromId, deleteLine, fetchLineFromId, updateLine, createStop, deleteStop} from './utils/apiFetch';
+import { fetchToken, fetchSchoolsFull, createSchool, deleteSchool, createLine, updateSchool, fetchSchoolFromId, deleteLine, fetchLineFromId, updateLine, createStop, deleteStop} from './utils/apiFetch';
 
 
 // Definisci la lista delle scuole
@@ -626,6 +628,12 @@ async function deleteStopUI(stop) {
 }
 
 // ---------------------- ON MOUNTED ----------------------
+const router = useRouter();
+onBeforeMount(async () => {
+  if(!loggedUser.token || loggedUser.role !== 'admin'){
+    router.push('/');
+  }
+});
 
 onMounted(async () => {
   try {

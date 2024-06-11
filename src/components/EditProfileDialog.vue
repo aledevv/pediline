@@ -18,15 +18,22 @@
                             <v-text-field label="Ruolo*" color="primary" v-model="role" readonly required></v-text-field>
                         </v-col>
                         <v-col cols="6" md="12" sm="6">
-                            <v-select :items="schoolDropdown" label="Scuola*" color="primary" v-model="selectedSchool" required></v-select>
+                            <v-form ref="formSchool" v-model="validSchool">
+                                <v-select :items="schoolDropdown" label="Scuola*" color="primary" v-model="selectedSchool" :rules="[v => !!v || 'Seleziona una scuola']" required></v-select>
+                            </v-form>
                         </v-col>
 
                         <v-col cols="auto" sm="6">
-                            <v-select :items="lineDropdown" label="Linea*" color="primary" v-model="selectedLine" required></v-select>
+                                <v-form ref="formLine" v-model="validLine">
+                                
+                                <v-select :items="lineDropdown" label="Linea*" color="primary" v-model="selectedLine" :rules="[v => !!v || 'Seleziona una linea']" required></v-select>
+                            </v-form>
                         </v-col>
 
                         <v-col cols="auto" sm="6">
-                            <v-select :items="stopDropdown" label="Fermata*" color="primary" v-model="selectedStop" required></v-select>
+                                <v-form ref="formStop" v-model="validStop">
+                                <v-select :items="stopDropdown" label="Fermata*" color="primary" v-model="selectedStop" :rules="[v => !!v || 'Seleziona una fermata']" required></v-select>
+                            </v-form>
                         </v-col>
                     </v-row>
 
@@ -70,6 +77,14 @@ export default {
         let selectedSchool = ref('');       
         let selectedLine = ref('');
         let selectedStop = ref('');
+
+        let validStop = ref(false);
+        let validLine = ref(false);
+        let validSchool = ref(false);
+        const formStop = ref(null);
+        const formLine = ref(null);
+        const formSchool = ref(null);
+
 
         let isFetching = false;
 
@@ -153,7 +168,8 @@ export default {
 
             let stops = [];
             for (let stop in dataDictionary.value[selectedSchoolId].lines[selectedLineId].stops){
-                stops.push(dataDictionary.value[selectedSchoolId].lines[selectedLineId].stops[stop].name);
+                if(dataDictionary.value[selectedSchoolId].lines[selectedLineId].stops[stop].name != 'Scuola')
+                    stops.push(dataDictionary.value[selectedSchoolId].lines[selectedLineId].stops[stop].name);
             }
 
             stopDropdown.value = stops;
