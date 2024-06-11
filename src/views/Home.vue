@@ -5,8 +5,8 @@
       <v-container fluid>
         <v-row>
           <v-col>
-            <v-card color="grey-lighten-6" max-height="50vh" title="La tua linea">
-              <MapLines />
+            <v-card color="grey-lighten-6" title="La tua linea">
+              <MapLines height="40vh" :center="mapCenter" :schoolName="'Scuola ' + selectedSchool" :zoom="mapZoom" :color="mapColor" :stops="mapStops"/>
             </v-card>
           </v-col>
         </v-row>
@@ -101,10 +101,17 @@ import MapLines from '@/components/MapLines.vue'
 import NavigationDrawer from '@/components/NavigationDrawer.vue'
 import pauseButton from '@/components/pauseButton.vue'
 import stopButton from '@/components/stopButton.vue'
-import { loggedUser, setLoggedUser } from '@/states/loggedUser.js'
-import { fetchToken } from './utils/apiFetch.js'
+import { loggedUser } from '@/states/loggedUser.js'
+import { fetchToken, fetchSchoolFromId, fetchLineFromId, fetchStopFromId } from './utils/apiFetch.js'
 
 const alerts = ref([]); // Initialize as an empty array
+
+let mapCenter = ref([11.122068743015461, 46.06733230951298]);
+let mapZoom = ref(12);
+let mapColor = ref('');
+let mapStops = ref([]);
+let schoolName = ref('');
+
 
 const imageLinks = [
   'https://dwpt1kkww6vki.cloudfront.net/img/logo/province-trente.png',
@@ -116,11 +123,34 @@ onBeforeMount(fetchToken);
 onMounted(() => {
   fetchToken();
   fetchAlerts();
+
+  console.log('Logged user:', loggedUser); // Debugging log
+  
+  if(loggedUser.token && loggedUser.line_id && loggedUser.school_id  && loggedUser.stop_id ){
+    setMapParameters();
+  }
 });
+
+async function setMapParameters() {
+
+  let userSchool = await fetchSchoolFromId(loggedUser.school_id);
+  let userLine = await fetchLineFromId(loggedUser.line_id);
+  let userStop = await fetchStopFromId(loggedUser.stop_id);
+
+  console.log('User school:', userSchool); // Debugging log
+  console.log('User line:', userLine); // Debugging log
+  console.log('User stops:', userStop); // Debugging log
+
+  schoolName.value = userSchool.name;
+  mapCenter.value = [userSchool.position[1], userSchool.position[0]];
+  mapZoom.value = 14;
+  mapColor.value = userLine.color;
+  mapStops.value.push({name: userStop.name, schedule: userStop.schedule, position: userStop.position});
+}
 
 async function fetchAlerts() {
   try {
-    const response = await fetch('http://localhost:3000/api/v1/alerts');
+    const response = await fetch('http://localhost:10000/api/v1/alerts');
     const data = await response.json();
     
     console.log('Fetched data:', data); // Debugging log
