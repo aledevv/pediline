@@ -1,4 +1,4 @@
-const HOST = 'http://localhost:10000/api/v1';
+const HOST = 'http://localhost:3000/api/v1';
 import { setLoggedUser, loggedUser, getInfo } from '../../states/loggedUser.js';
 
 const API_ENDPOINTS = {
@@ -133,7 +133,7 @@ async function fetchToken() {
     if (!data.success) {
       throw new Error(data.message);
     }
-
+    console.log('User info data:', data);
     if (data.loggedUser) {
       await fetchUserInfo(data);
       console.log('Dati utente:', data.loggedUser);

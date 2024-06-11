@@ -27,8 +27,8 @@ import router from '../router/router.js';
 const HOST = 'http://localhost:3000';
 const API_URL = `${HOST}/api/v1`;
 
-const email = ref('alice@example.com');
-const password = ref('password1');
+const email = ref('');
+const password = ref('');
 const error = ref('');
 
 const emit = defineEmits(['login']);

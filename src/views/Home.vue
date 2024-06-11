@@ -126,7 +126,7 @@ onMounted(() => {
 
   console.log('Logged user:', loggedUser); // Debugging log
   
-  if(loggedUser.token && loggedUser.line_id && loggedUser.school_id  && loggedUser.stop_id ){
+  if(loggedUser.token && loggedUser.line_id!=undefined && loggedUser.school_id!=undefined  && loggedUser.stop_id!=undefined ){
     setMapParameters();
   }
 });
@@ -150,7 +150,7 @@ async function setMapParameters() {
 
 async function fetchAlerts() {
   try {
-    const response = await fetch('http://localhost:10000/api/v1/alerts');
+    const response = await fetch('http://localhost:3000/api/v1/alerts');
     const data = await response.json();
     
     console.log('Fetched data:', data); // Debugging log

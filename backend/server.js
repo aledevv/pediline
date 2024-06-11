@@ -4,24 +4,11 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
-const allowedOrigins = [
-    'http://localhost:8080',
-    'https://pediline-test.onrender.com'
-  ];
-  
-  app.use(cors({
-    origin: function(origin, callback) {
-      if (!origin) return callback(null, true); // Consente le richieste senza origine (ad esempio, da Postman)
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = 'L\'origine ' + origin + ' non è consentita dalle politiche CORS';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
+app.use(cors({
+    origin: 'http://localhost:8080',
     credentials: true
   }));
-
-
+  app.use(cookieParser());
 
 const dotenv = require('dotenv').config({ path: path.join(__dirname, '.env') });
 
@@ -32,9 +19,9 @@ const stops = require('./stops.js');
 const lists = require('./lists.js');
 const schools = require('./schools.js');
 const calendars = require('./calendars.js');
+const alerts = require('./alerts.js');
 const authentication = require('./authentication.js');
 const tokenChecker = require('./tokenChecker.js');
-const alerts = require('./alerts.js');
 
 
 /**
@@ -75,9 +62,6 @@ app.use('/api/v1/token', tokenChecker);
 app.use('/api/v1/authenticate', authentication);
 app.use('/api/v1/alerts', alerts);
 
-//app.use('/', express.static('static'));
-
-// Servire i file statici dalla cartella 'dist'
 const vueDistPath = path.join(__dirname, '../dist');
 app.use(express.static(vueDistPath));
 

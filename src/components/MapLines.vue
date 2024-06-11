@@ -105,16 +105,16 @@ function createMarker() {
 
   const center = setCenterAndZoom();
 
-  if (marker) {
-    marker.remove();
-  }
+  // if (marker) {
+  //   marker.remove();
+  // }
 
-  if (stopMarkers.length > 0) {
-    for (let stopMarker of stopMarkers) {
-      stopMarker.remove();
-    }
-    stopMarkers = [];
-  }
+  // if (stopMarkers.length > 0) {
+  //   for (let stopMarker of stopMarkers) {
+  //     stopMarker.remove();
+  //   }
+  //   stopMarkers = [];
+  // }
 
   const el = document.createElement('div');
   // Applica stili CSS per creare un div circolare

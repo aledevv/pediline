@@ -60,7 +60,7 @@
 
 
           <v-infinite-scroll
-            height="100%"
+            height="400"
             @load="load"
           >
             <template v-for="(day, index) in assenze" :key="day">
@@ -132,7 +132,22 @@
     {"data":"13 Gennaio 2024"},
     {"data":"14 Gennaio 2024"},
     {"data":"15 Gennaio 2024"},
-
+    {"data":"16 Gennaio 2024"},
+    {"data":"17 Gennaio 2024"},
+    {"data":"18 Gennaio 2024"},
+    {"data":"19 Gennaio 2024"},
+    {"data":"20 Gennaio 2024"},
+    {"data":"21 Gennaio 2024"},
+    {"data":"22 Gennaio 2024"},
+    {"data":"23 Gennaio 2024"},
+    {"data":"24 Gennaio 2024"},
+    {"data":"25 Gennaio 2024"},
+    {"data":"26 Gennaio 2024"},
+    {"data":"27 Gennaio 2024"},
+    {"data":"28 Gennaio 2024"},
+    {"data":"29 Gennaio 2024"},
+    {"data":"30 Gennaio 2024"},
+    {"data":"31 Gennaio 2024"},
   ]);
 
   // per DatePicker

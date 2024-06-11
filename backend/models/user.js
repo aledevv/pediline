@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const school = require('./school');
 var Schema = mongoose.Schema;
 
 // set up a mongoose model

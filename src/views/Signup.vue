@@ -32,8 +32,8 @@ const TOKEN_URL = `${HOST}/token`;
 export default {
   data() {
     return {
-      email: 'ali@mai.com',
-      password: '123',
+      email: '',
+      password: '',
       role: 'Genitore',
       // name: '',
       // childName: '',

@@ -7,7 +7,7 @@
     <v-main class="bg-grey-lighten-3">
       <v-container>
         <h1 class="pb-2">Mappa delle linee</h1>
-
+        
         <v-row>
           <v-col cols="4">
             <v-select
@@ -18,6 +18,14 @@
               v-model="selectedSchool"
               @change="updateLines"
             ></v-select>
+
+            <v-progress-circular
+              v-if="loading == true"
+              indeterminate
+              color="primary"
+              :size="70"
+              :width="7"
+            ></v-progress-circular>
 
             <v-card class="mt-3" v-for="line in lines" :key="line" v-if="lines.length > 0">
               <v-card-title>{{ line.name }}</v-card-title>
@@ -68,7 +76,10 @@ let mapZoom = ref(12);
 let mapColor = ref('');
 let mapStops = ref([]);
 
+const loading = ref(false);
+
 const localFetchSchools = async () => {
+    loading.value = true;
     schools = await fetchSchoolsFull()
 
     setArrayOfSchoolsName(); // create list of names of schools to show in combobox
@@ -85,6 +96,7 @@ const localFetchSchools = async () => {
     
 
     await updateLines(); // Update lines after setting the default school
+    loading.value = false;
 };
 
 function setArrayOfSchoolsName() {

@@ -22,6 +22,13 @@
           </template>
           <v-card-text>
             <v-row>
+              <v-progress-circular
+                v-if="loading"
+                indeterminate
+                color="primary"
+                :size="70"
+                :width="7"
+              ></v-progress-circular>
               <!-- Itera sulla lista delle scuole -->
               <v-col v-for="school in schools" :key="school.id" cols="4" sm="4" md="4" lg="4">
                 <v-expand-transition>
@@ -334,6 +341,7 @@ const newSchool = ref({
 const validSchool = ref(false);
 const formSchool = ref(null);     // riferimento a form school
 const expandedSchool = ref(null);
+const loading = ref(false);
 
 
 const dialogLine = ref(false);
@@ -629,16 +637,25 @@ async function deleteStopUI(stop) {
 
 // ---------------------- ON MOUNTED ----------------------
 const router = useRouter();
-onBeforeMount(async () => {
+  
+onMounted(async () => {
+  await fetchToken();
+  
+  console.log('Logged user:', loggedUser); // Debugging log
+  console.log('RUOLO', loggedUser.role);
+
+ 
   if(!loggedUser.token || loggedUser.role !== 'admin'){
     router.push('/');
   }
-});
 
-onMounted(async () => {
+
+  
   try {
+    loading.value = true;
     schools.value = await fetchSchoolsFull();
     console.log('schools', schools.value);
+    loading.value = false;
   } catch (error) {
     console.error('Error fetching schools:', error);
   }
