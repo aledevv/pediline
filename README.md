@@ -1,18 +1,18 @@
-# pediline-ui
+# Pediline
 
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 1. Lanciare il backend
 ```
-npm run serve
+npm run backend
 ```
 
-### Compiles and minifies for production
+### 2. Lancia poi il frontend il froned
 ```
-npm run build
+npm run frontend
 ```
 
 ### Customize configuration
