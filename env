@@ -1,6 +1,0 @@
-SUPER_SECRET='NbPpuFVMu4YOXu7ulbxWDTjf2FWQZ9wj8TrCtESz-m9N2VtmpWjBt4BCfAGhcVE3'
-DB_URL='mongodb+srv://admin:1vzP2x2tqQNQddkf@cluster0.tq39k8r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-FRONTEND='../PedilineVue/dist'
-AUTH_SECRET='26c0a2255a9e130d1cedc2d5344cfbef326792c3cd15fda8b19ccf1a1cf142cb'
-AUTH_CLIENT_ID='jCUEJPoW80cgZJm83NMrAvtuOyj8GO02'
-MAPTILER_API_KEY = 'NRQ1JpJfPZoVGBQhQCxP'
