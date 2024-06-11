@@ -10,14 +10,14 @@
 
         <v-row>
           <v-col cols="4">
-            <v-combobox
+            <v-select
               label="Scuola"
               :items="schools_name"
               placeholder="Seleziona linea"
               persistent-placeholder="true"
               v-model="selectedSchool"
               @change="updateLines"
-            ></v-combobox>
+            ></v-select>
 
             <v-card class="mt-3" v-for="line in lines" :key="line" v-if="lines.length > 0">
               <v-card-title>{{ line.name }}</v-card-title>
@@ -44,7 +44,7 @@
 
           <v-col>
             <v-sheet rounded="lg" max-width="100%">
-              <MapLines :center="mapCenter" :zoom="mapZoom" :schoolName="'Scuola ' + selectedSchool" :color="mapColor"/>              <!-- Map component -->
+              <MapLines :center="mapCenter" :zoom="mapZoom" :schoolName="'Scuola ' + selectedSchool" :color="mapColor" :stops="mapStops"/>              <!-- Map component -->
             </v-sheet>
           </v-col>
         </v-row>
@@ -66,6 +66,7 @@ const lines = ref([]); // Array of lines
 let mapCenter = ref([11.122068743015461, 46.06733230951298]);
 let mapZoom = ref(12);
 let mapColor = ref('');
+let mapStops = ref([]);
 
 const localFetchSchools = async () => {
     schools = await fetchSchoolsFull()
@@ -74,10 +75,16 @@ const localFetchSchools = async () => {
 
     selectedSchool.value = schools_name.value[0]; // Set the default selected school
     mapCenter.value = [schools[selectedSchool.value].position[1], schools[selectedSchool.value].position[0]]; // Set the default center of the map
-    mapZoom.value = 15; // Set the default zoom of the map
-    mapColor.value = schools[selectedSchool.value].lines[0].color; // Set the default color of the line
+    mapZoom.value = 14.5; // Set the default zoom of the map
+    if (schools[selectedSchool.value].lines.length > 0){
+      mapColor.value = schools[selectedSchool.value].lines[0].color; // Set the default color of the line
+    }else{
+      mapColor.value = 'black'; // Set the default color of the line
+    }
 
-    updateLines(); // Update lines after setting the default school
+    
+
+    await updateLines(); // Update lines after setting the default school
 };
 
 function setArrayOfSchoolsName() {
@@ -86,15 +93,32 @@ function setArrayOfSchoolsName() {
   }
 }
 
-const updateLines = () => {
+const updateLines = async () => {
   const school = schools[selectedSchool.value];
   mapCenter.value = [school.position[1], school.position[0]];
-  mapColor.value = school.lines[0].color;
+
+
+  if (school.lines.length > 0){
+    mapColor.value = school.lines[0].color;
+  }else{
+    mapColor.value = '#000000';     // se non ci sono linee nella scuola, il colore di default è nero
+  }
+
   if (school) {
     lines.value = school.lines;
   } else {
     lines.value = [];
   }
+
+  // Inserisco fermate nel array da passare alla mappa
+  mapStops.value = [];
+  for (let line in lines.value){
+    console.log("stops of", lines.value[line].name, lines.value[line].stops);
+    for(let stop in lines.value[line].stops){
+      mapStops.value.push({name: lines.value[line].stops[stop].name, schedule: lines.value[line].stops[stop].schedule, position: lines.value[line].stops[stop].position});
+    }
+  }
+  
 };
 
 watch(selectedSchool, updateLines);
